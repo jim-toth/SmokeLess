@@ -9,7 +9,7 @@ const updateSettings = async (settings) => {
   }
 }
 
-const fetchSettings = async (settings) => {
+const fetchSettings = async () => {
   try {
     const settings = {
       durationIncrease: await AsyncStorage.getItem('@SmokeLess:settings:durationIncrease'),
