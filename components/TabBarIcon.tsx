@@ -1,12 +1,18 @@
 import React from 'react';
-import { Icon } from 'expo';
+// tslint:disable-next-line:no-implicit-dependencies
+import { Ionicons } from '@expo/vector-icons'
 
 import Colors from '../constants/Colors';
 
-export default class TabBarIcon extends React.Component {
+interface ITabBarIcon {
+  name: string;
+  focused: boolean;
+}
+
+export default class TabBarIcon extends React.Component<ITabBarIcon, any> {
   render() {
     return (
-      <Icon.Ionicons
+      <Ionicons
         name={this.props.name}
         size={26}
         style={{ marginBottom: -3 }}

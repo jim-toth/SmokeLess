@@ -18,8 +18,12 @@
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
+    "@types/expo": "^32.0.9",
+    "@types/expo__vector-icons": "^9.0.1",
+    "@types/react-native": "^0.57.42",
     "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0"
+    "jest-expo": "^32.0.0",
+    "typescript": "^3.4.1"
   },
   "private": true
 }

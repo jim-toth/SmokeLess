@@ -3,17 +3,18 @@ import { View, Text, TextInput, Button } from 'react-native';
 import sanitizeLastNonNumericChar from '../util/helpers';
 import { fetchSettings, updateSettings } from '../db/SettingsRepository';
 
-export default class SettingsScreen extends React.Component {
+interface ISettingsScreenState {
+  durationBetweenSmokes?: string;
+  durationIncrease?: string;
+}
+
+export default class SettingsScreen extends React.Component<any, ISettingsScreenState> {
   static navigationOptions = {
     title: 'Settings',
   };
 
-  constructor(props) {
+  constructor(props:any) {
     super(props);
-    this.state = {
-      durationBetweenSmokes: null,
-      durationIncrease: null
-    }
   }
 
   async componentDidMount() {
@@ -21,12 +22,12 @@ export default class SettingsScreen extends React.Component {
     this.setState(settings);
   }
 
-  _setDurationBetweenSmokes = (durationBetweenSmokes) => {
+  _setDurationBetweenSmokes = (durationBetweenSmokes:string) => {
     durationBetweenSmokes = sanitizeLastNonNumericChar(durationBetweenSmokes);
     this.setState({ durationBetweenSmokes });
   }
 
-  _setIncreaseBetweenSmokes = (durationIncrease) => {
+  _setIncreaseBetweenSmokes = (durationIncrease:string) => {
     durationIncrease = sanitizeLastNonNumericChar(durationIncrease);
     this.setState({ durationIncrease });
   }
@@ -44,7 +45,6 @@ export default class SettingsScreen extends React.Component {
         <Text>Duration Between Smokes (minutes)</Text>
         <TextInput
           placeholder="90"
-          autoComplete="off"
           autoCorrect={false}
           keyboardType="numeric"
           onChangeText={this._setDurationBetweenSmokes}
@@ -54,7 +54,6 @@ export default class SettingsScreen extends React.Component {
         <Text>Duration Increase Between Smokes (minutes)</Text>
         <TextInput
           placeholder="1"
-          autoComplete="off"
           autoCorrect={false}
           keyboardType="numeric"
           onChangeText={this._setIncreaseBetweenSmokes}
