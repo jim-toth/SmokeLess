@@ -8,6 +8,9 @@ interface ISettingsScreenState {
   durationIncrease?: string;
 }
 
+const defaultState:ISettingsScreenState = {
+}
+
 export default class SettingsScreen extends React.Component<any, ISettingsScreenState> {
   static navigationOptions = {
     title: 'Settings',
@@ -15,6 +18,7 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
 
   constructor(props:any) {
     super(props);
+    this.state = defaultState
   }
 
   async componentDidMount() {
@@ -40,6 +44,7 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
   }
 
   render() {
+    let { durationBetweenSmokes, durationIncrease } = this.state;
     return (
       <View style={{padding:10}}>
         <Text>Duration Between Smokes (minutes)</Text>

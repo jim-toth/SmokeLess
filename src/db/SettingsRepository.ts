@@ -14,7 +14,7 @@ const updateSettings = async (settings:Settings) => {
       await AsyncStorage.setItem('@SmokeLess:settings:durationBetweenSmokes', settings.durationBetweenSmokes);
     }
   } catch (error) {
-    console.error('Error saving settings', error);
+    console.error('Error saving settings:', settings, error);
   }
 }
 
