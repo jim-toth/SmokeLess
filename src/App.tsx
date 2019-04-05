@@ -1,15 +1,20 @@
-import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import * as React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 // tslint:disable-next-line:no-implicit-dependencies
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons';
 import AppNavigator from './navigation/AppNavigator';
+import HomeScreen from './screens/HomeScreen';
 
 interface IAppProps {
-  skipLoadingScreen: boolean;
+  skipLoadingScreen?: boolean;
 }
 
-export default class App extends React.Component<IAppProps, any> {
+interface IAppState {
+  isLoadingComplete: boolean;
+}
+
+export default class App extends React.Component<IAppProps, IAppState> {
   state = {
     isLoadingComplete: false,
   };
@@ -26,8 +31,9 @@ export default class App extends React.Component<IAppProps, any> {
     } else {
       return (
         <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
           <AppNavigator />
+          {/* <HomeScreen /> */}
         </View>
       );
     }
@@ -44,7 +50,7 @@ export default class App extends React.Component<IAppProps, any> {
         // ...Ionicons.font,
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
-        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        // 'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
       }),
     ]).then(() => { return null; });
   };
