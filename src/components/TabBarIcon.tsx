@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 // tslint:disable-next-line:no-implicit-dependencies
 import { Ionicons } from '@expo/vector-icons'
 

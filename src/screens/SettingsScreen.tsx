@@ -44,7 +44,6 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
   }
 
   render() {
-    let { durationBetweenSmokes, durationIncrease } = this.state;
     return (
       <View style={{padding:10}}>
         <Text>Duration Between Smokes (minutes)</Text>
