@@ -1,7 +1,7 @@
 import 'react-native';
 import * as React from 'react';
 import App from '../src/App';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 describe('<App />', () => {
   it('renders loading screen', () => {

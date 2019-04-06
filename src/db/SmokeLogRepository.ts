@@ -4,6 +4,7 @@ const SmokeLogKey = '@SmokeLess:smokes';
 
 type SmokeLogEntry = {
   timestamp: Date;
+  cheated: boolean;
 };
 
 const fetchSmokeLogEntries = async () : Promise<SmokeLogEntry[]> => {
@@ -25,9 +26,9 @@ const fetchSmokeLogEntries = async () : Promise<SmokeLogEntry[]> => {
   return logs;
 }
 
-const createSmokeLogEntry = async (smokeDateTime:Date) : Promise<void> => {
+const createSmokeLogEntry = async (smokeDateTime:Date, cheated:boolean) : Promise<void> => {
   let logs = await fetchSmokeLogEntries();
-  logs.push({ timestamp: smokeDateTime });
+  logs.push({ timestamp: smokeDateTime, cheated });
   
   try {
     await AsyncStorage.setItem(SmokeLogKey, JSON.stringify(logs));

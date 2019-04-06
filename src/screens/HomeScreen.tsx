@@ -1,10 +1,7 @@
 import React from 'react';
-import moment from 'moment';
-import {
-  Button,
-  Text,
-  View
-} from 'react-native';
+import { View } from 'react-native';
+
+import CountdownTimerButton from '../components/CountdownTimerButton';
 import {
   createSmokeLogEntry,
   fetchLastSmokeDateTime
@@ -13,10 +10,14 @@ import { fetchSettings, updateSettings } from '../db/SettingsRepository';
 
 interface IHomeScreenState {
   lastSmokeDateTime: Date;
+  durationBetweenSmokes: number;
+  durationIncrease: number;
 }
 
 const defaultState:IHomeScreenState = {
-  lastSmokeDateTime: new Date()
+  lastSmokeDateTime: new Date(),
+  durationBetweenSmokes: 60,
+  durationIncrease: 5
 };
 
 export default class HomeScreen extends React.Component<any, IHomeScreenState> {
@@ -31,48 +32,43 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
 
   async componentDidMount() {
     const settings = await fetchSettings();
-    const lastSmokeDateTime = await fetchLastSmokeDateTime();
-    this.setState({ lastSmokeDateTime });
+    const lastSmokeDateTime = new Date(await fetchLastSmokeDateTime());
+    const durationBetweenSmokes = settings.durationBetweenSmokes ? parseFloat(settings.durationBetweenSmokes) : 0;
+    const durationIncrease = settings.durationIncrease ? parseFloat(settings.durationIncrease) : 0;
+    this.setState({ lastSmokeDateTime, durationBetweenSmokes, durationIncrease });
   }
 
-  private async onPressLogSmoke() {
+  onPressLogSmoke = async (pressedBeforeTimerExpired: boolean) => {
     let smokeTimestamp = new Date();
-    this.setState({ lastSmokeDateTime: smokeTimestamp });
-    await createSmokeLogEntry(smokeTimestamp);
+    let newDurationBetweenSmokes = this.state.durationBetweenSmokes + this.state.durationIncrease;
+    this.setState({
+      lastSmokeDateTime: smokeTimestamp,
+      durationBetweenSmokes: newDurationBetweenSmokes
+    });
+    await createSmokeLogEntry(smokeTimestamp, pressedBeforeTimerExpired);
+    await updateSettings({
+      durationBetweenSmokes: newDurationBetweenSmokes.toString()
+    })
   }
 
-  private calculateDuration() : string {
-    let now = moment();
-    let last = moment(this.state.lastSmokeDateTime).subtract(1, 'days');
-    let durr = moment.duration(now.diff(last));
-
-    let d = durr.days();
-    let h = (durr.hours() + (d * 24)).toString();
-    if (h.length === 1) {
-      h = '0' + h;
+  private calculateNextSmokeDateTime() {
+    console.log('lastSmokeDateTime', this.state.lastSmokeDateTime);
+    if (!this.state.lastSmokeDateTime.getTime) {
+      return new Date();
     }
-    let m = durr.minutes().toString();
-    if (m.length === 1) {
-      m = '0' + m;
-    }
-    let s = durr.seconds().toString();
-    if (s.length === 1) {
-      s = '0' + s;
-    }
-    let duration = `${h}:${m}:${s}`;
-
-    return duration;
+    let nextSmokeDateTime = this.state.lastSmokeDateTime.getTime()
+      + (this.state.durationBetweenSmokes * 60 * 1000)
+      + (this.state.durationIncrease * 60 * 1000);
+    return new Date(nextSmokeDateTime);
   }
 
-  render() {
-    let durationString = this.calculateDuration();
+  render() {    
     return (
       <View>
-        <Button
-          title={durationString}
-          onPress={this.onPressLogSmoke}>
-        </Button>
-        <Text>until next smoke</Text>
+        <CountdownTimerButton
+          until={this.calculateNextSmokeDateTime()}
+          onPress={this.onPressLogSmoke}
+        />
       </View>
     );
   }
