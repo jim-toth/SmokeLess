@@ -12,10 +12,8 @@
     "@types/react-mixin": "^2.0.32",
     "expo": "^32.0.0",
     "react": "16.5.0",
-    "react-mixin": "^5.0.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-navigation": "^3.0.9",
-    "react-timer-mixin": "^0.13.4"
+    "react-navigation": "^3.0.9"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
