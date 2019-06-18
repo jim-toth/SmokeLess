@@ -2,6 +2,8 @@ import { AsyncStorage } from 'react-native';
 
 const SmokeLogKey = '@SmokeLess:smokes';
 
+const SmokeLogKeys = [ SmokeLogKey ];
+
 type SmokeLogEntry = {
   timestamp: Date;
   cheated: boolean;
@@ -54,8 +56,17 @@ const fetchLastSmokeDateTime = async () : Promise<Date> => {
   return lastSmokeDateTime;
 }
 
+const resetSmokeLog = async () => {
+  try {
+    await AsyncStorage.multiRemove(SmokeLogKeys);
+  } catch (error) {
+    console.error('Error resetting smoke log:', error);
+  }
+}
+
 export {
   fetchLastSmokeDateTime,
   fetchSmokeLogEntries,
-  createSmokeLogEntry
+  createSmokeLogEntry,
+  resetSmokeLog
 }

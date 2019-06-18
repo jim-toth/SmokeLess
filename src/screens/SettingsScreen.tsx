@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, Alert } from 'react-native';
 import sanitizeLastNonNumericChar from '../util/helpers';
-import { fetchSettings, updateSettings } from '../db/SettingsRepository';
+import { fetchSettings, updateSettings, resetSettings } from '../db/SettingsRepository';
+import { resetSmokeLog } from '../db/SmokeLogRepository';
 
 interface ISettingsScreenState {
   durationBetweenSmokes?: string;
@@ -22,6 +23,10 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
   }
 
   async componentDidMount() {
+    await this._fetchAndSetSettings();
+  }
+
+  async _fetchAndSetSettings() {
     const settings = await fetchSettings();
     this.setState(settings);
   }
@@ -41,6 +46,23 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
       durationIncrease: this.state.durationIncrease,
       durationBetweenSmokes: this.state.durationBetweenSmokes
     });
+  }
+
+  _onResetPressed = async () => {
+    Alert.alert(
+      'Reset App',
+      'This will reset ALL of your data for the app.  Are you sure?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'OK', onPress: () => this._onResetConfirmed() }
+      ]
+    );
+  }
+
+  _onResetConfirmed = async () => {
+    await resetSmokeLog();
+    await resetSettings();
+    await this._fetchAndSetSettings();
   }
 
   render() {
@@ -67,6 +89,11 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
         <Button
           onPress={this._onSavePressed}
           title="Save">
+        </Button>
+
+        <Button
+          onPress={this._onResetPressed}
+          title="Reset">
         </Button>
       </View>
     );
