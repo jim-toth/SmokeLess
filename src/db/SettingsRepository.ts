@@ -8,6 +8,8 @@ type Settings = {
 const SettingsDurationIncreaseKey = '@SmokeLess:settings:durationIncrease';
 const SettingsDurationKey = '@SmokeLess:settings:durationBetweenSmokes';
 
+const SettingsKeys = [ SettingsDurationIncreaseKey, SettingsDurationKey ];
+
 const updateSettings = async (settings:Settings) => {
   try {
     if (settings.durationIncrease) {
@@ -36,7 +38,16 @@ const fetchSettings = async () : Promise<Settings> => {
   return {};
 }
 
+const resetSettings = async () => {
+  try {
+    await AsyncStorage.multiRemove(SettingsKeys);
+  } catch (error) {
+    console.error('Error resetting settings:', error);
+  }
+}
+
 export {
   updateSettings,
-  fetchSettings
+  fetchSettings,
+  resetSettings
 }
