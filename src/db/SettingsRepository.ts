@@ -1,0 +1,42 @@
+import { AsyncStorage } from 'react-native';
+
+type Settings = {
+  durationIncrease?: string;
+  durationBetweenSmokes?: string;
+}
+
+const SettingsDurationIncreaseKey = '@SmokeLess:settings:durationIncrease';
+const SettingsDurationKey = '@SmokeLess:settings:durationBetweenSmokes';
+
+const updateSettings = async (settings:Settings) => {
+  try {
+    if (settings.durationIncrease) {
+      await AsyncStorage.setItem(SettingsDurationIncreaseKey, settings.durationIncrease);
+    }
+    if (settings.durationBetweenSmokes) {
+      await AsyncStorage.setItem(SettingsDurationKey, settings.durationBetweenSmokes);
+    }
+  } catch (error) {
+    console.error('Error saving settings:', settings, error);
+  }
+}
+
+const fetchSettings = async () : Promise<Settings> => {
+  try {
+    let durationIncrease = await AsyncStorage.getItem(SettingsDurationIncreaseKey);
+    let durationBetweenSmokes = await AsyncStorage.getItem(SettingsDurationKey);
+    return {
+      durationIncrease: durationIncrease !== null ? durationIncrease : undefined,
+      durationBetweenSmokes: durationBetweenSmokes !== null ? durationBetweenSmokes : undefined
+    };
+  } catch (error) {
+    console.error('Error fetching settings', error);
+  }
+
+  return {};
+}
+
+export {
+  updateSettings,
+  fetchSettings
+}

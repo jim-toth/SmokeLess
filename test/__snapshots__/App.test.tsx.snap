@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App /> renders loading screen 1`] = `
+<AppLoading
+  onError={[Function]}
+  onFinish={[Function]}
+  startAsync={[Function]}
+/>
+`;
+
+exports[`<App /> renders without loading screen 1`] = `
+<Component
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <NavigationContainer />
+</Component>
+`;
