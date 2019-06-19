@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import CountdownTimerButton from '../components/CountdownTimerButton';
 import {
@@ -7,15 +7,16 @@ import {
   fetchLastSmokeDateTime
 } from '../db/SmokeLogRepository';
 import { fetchSettings, updateSettings } from '../db/SettingsRepository';
+import { formatPrettyDate } from '../util/helpers';
 
 interface IHomeScreenState {
-  lastSmokeDateTime: Date;
+  lastSmokeDateTime: Date | null;
   durationBetweenSmokes: number;
   durationIncrease: number;
 }
 
 const defaultState:IHomeScreenState = {
-  lastSmokeDateTime: new Date(),
+  lastSmokeDateTime: null,
   durationBetweenSmokes: 60,
   durationIncrease: 5
 };
@@ -32,7 +33,8 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
 
   async componentDidMount() {
     const settings = await fetchSettings();
-    const lastSmokeDateTime = new Date(await fetchLastSmokeDateTime());
+    const fetchedLastSmokeDateTime = await fetchLastSmokeDateTime();
+    const lastSmokeDateTime = fetchedLastSmokeDateTime ? new Date(fetchedLastSmokeDateTime) : null;
     const durationBetweenSmokes = settings.durationBetweenSmokes ? parseFloat(settings.durationBetweenSmokes) : 0;
     const durationIncrease = settings.durationIncrease ? parseFloat(settings.durationIncrease) : 0;
     this.setState({ lastSmokeDateTime, durationBetweenSmokes, durationIncrease });
@@ -52,7 +54,7 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
   }
 
   private calculateNextSmokeDateTime() {
-    if (!this.state.lastSmokeDateTime.getTime) {
+    if (!this.state.lastSmokeDateTime) {
       return new Date();
     }
     let nextSmokeDateTime = this.state.lastSmokeDateTime.getTime()
@@ -63,11 +65,24 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
 
   render() {    
     return (
-      <View>
-        <CountdownTimerButton
-          until={this.calculateNextSmokeDateTime()}
-          onPress={this.onPressLogSmoke}
-        />
+      <View style={{
+        display: 'flex',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+      }}>
+        <View style={{ height: '45%' }}></View>
+        <View style={{ alignSelf: 'center', width: '80%' }}>
+          <CountdownTimerButton
+            until={this.calculateNextSmokeDateTime()}
+            onPress={this.onPressLogSmoke}
+          />
+          <Text style={{ alignSelf: 'center' }}>until next smoke</Text>
+        </View>
+        <View style={{ height: '35%' }}></View>
+        <View style={{ alignSelf: 'center' }}>
+          <Text>You last had a smoke on {formatPrettyDate(this.state.lastSmokeDateTime)}</Text>
+        </View>
       </View>
     );
   }
