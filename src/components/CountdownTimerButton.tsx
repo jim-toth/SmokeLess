@@ -8,7 +8,7 @@ import { Button } from 'react-native';
 
 interface ICountdownTimerButtonProps {
   bottomText?: string;
-  until: Date;
+  until?: Date;
   resetOnPress?: boolean;
   onPress?: (beforeTimerExpired: boolean) => void;
 }
@@ -22,7 +22,7 @@ interface ICountdownTimerButtonState {
 
 export default class CountdownTimerButton extends React.Component<ICountdownTimerButtonProps, ICountdownTimerButtonState> {
   public readonly state = {
-    millisecondsRemaining: this.props.until.getTime() - Date.now(),
+    millisecondsRemaining: this.props.until ? this.props.until.getTime() - Date.now() : -1,
     timeoutId: 0,
     previousMilliseconds: 0,
     isExpired: false
@@ -38,7 +38,7 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
     }
     this.setState({
       previousMilliseconds: undefined,
-      millisecondsRemaining: newProps.until.getTime() - Date.now()
+      millisecondsRemaining: newProps.until ? newProps.until.getTime() - Date.now() : -1
     });
   }
 
@@ -97,6 +97,7 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
   };
 
   private getFormattedTime = (milliseconds: number): string => {
+    if (milliseconds < 0) return '--:--:--'
     // if (this.props.formatMilliseconds !== undefined) {
     //   return this.props.formatMilliseconds(milliseconds);
     // }
@@ -115,9 +116,11 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
 
   render() {
     const millisecondsRemaining: number = this.state.millisecondsRemaining;
+    const buttonColor = millisecondsRemaining > 0 ? 'red' : 'green';
 
     return (
       <Button
+        color={buttonColor}
         title={this.getFormattedTime(millisecondsRemaining)}
         onPress={this._onPress}>
       </Button>

@@ -35,8 +35,8 @@ const createSmokeLogEntry = async (smokeDateTime:Date, cheated:boolean) : Promis
   }
 }
 
-const fetchLastSmokeDateTime = async () : Promise<Date> => {
-  let lastSmokeDateTime = new Date();
+const fetchLastSmokeDateTime = async () : Promise<Date|null> => {
+  let lastSmokeDateTime = null;
 
   try {
     let logs = await fetchSmokeLogEntries();
