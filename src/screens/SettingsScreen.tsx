@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
-import sanitizeLastNonNumericChar from '../util/helpers';
+import { sanitizeLastNonNumericChar } from '../util/helpers';
 import { fetchSettings, updateSettings, resetSettings } from '../db/SettingsRepository';
 import { resetSmokeLog } from '../db/SmokeLogRepository';
 

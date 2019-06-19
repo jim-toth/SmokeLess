@@ -21,7 +21,7 @@ const fetchSmokeLogEntries = async () : Promise<SmokeLogEntry[]> => {
     console.error('Error fetching smoke log entries', error);
   }
 
-  return logs;
+  return logs.reverse();
 }
 
 const createSmokeLogEntry = async (smokeDateTime:Date, cheated:boolean) : Promise<void> => {
