@@ -52,7 +52,6 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
   }
 
   private calculateNextSmokeDateTime() {
-    console.log('lastSmokeDateTime', this.state.lastSmokeDateTime);
     if (!this.state.lastSmokeDateTime.getTime) {
       return new Date();
     }

@@ -1,13 +1,9 @@
 import { AsyncStorage } from 'react-native';
+import { SmokeLogEntry } from '../common/SmokeLogEntry';
 
 const SmokeLogKey = '@SmokeLess:smokes';
 
 const SmokeLogKeys = [ SmokeLogKey ];
-
-type SmokeLogEntry = {
-  timestamp: Date;
-  cheated: boolean;
-};
 
 const fetchSmokeLogEntries = async () : Promise<SmokeLogEntry[]> => {
   let logs = [];
@@ -25,7 +21,7 @@ const fetchSmokeLogEntries = async () : Promise<SmokeLogEntry[]> => {
     console.error('Error fetching smoke log entries', error);
   }
 
-  return logs;
+  return logs.reverse();
 }
 
 const createSmokeLogEntry = async (smokeDateTime:Date, cheated:boolean) : Promise<void> => {
