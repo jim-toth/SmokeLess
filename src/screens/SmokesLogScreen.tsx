@@ -52,7 +52,7 @@ export default class SmokesLogScreen extends React.Component<any, ISmokesLogScre
                       : `md-${cheatedIcon}`
                   }
                 />
-                <Text style={{ fontSize: 16 }}>{formatPrettyDate(item.timestamp)}</Text>
+                <Text style={{ fontSize: 16, textAlignVertical: 'center' }}>{formatPrettyDate(item.timestamp)}</Text>
               </View>
             );
           }}
