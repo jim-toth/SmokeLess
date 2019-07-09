@@ -23,6 +23,14 @@ export default class SmokesLogScreen extends React.Component<any, ISmokesLogScre
   }
 
   async componentDidMount() {
+    await this._fetchData();
+  }
+
+  async componentDidUpdate() {
+    await this._fetchData();
+  }
+
+  async _fetchData() {
     const smokeLogEntries = await fetchSmokeLogEntries();
     this.setState({ smokeLogEntries });
   }

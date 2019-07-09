@@ -32,6 +32,14 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
   }
 
   async componentDidMount() {
+    await this._fetchData();
+  }
+
+  async componentDidUpdate() {
+    await this._fetchData();
+  }
+
+  async _fetchData() {
     const settings = await fetchSettings();
     const fetchedLastSmokeDateTime = await fetchLastSmokeDateTime();
     const lastSmokeDateTime = fetchedLastSmokeDateTime ? new Date(fetchedLastSmokeDateTime) : null;
