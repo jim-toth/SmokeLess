@@ -13,7 +13,7 @@ const Months = [
   'October', 'November', 'December'
 ];
 
-const formatPrettyDate = (theDate:Date|null) => {
+const formatPrettyDate = (theDate:Date|null, shortMonthName?:boolean) => {
   if (!theDate) return 'never';
   const d = new Date(theDate);
   const hours = d.getHours();
@@ -23,7 +23,10 @@ const formatPrettyDate = (theDate:Date|null) => {
   const m = minutes < 10 ? `0${minutes}` : minutes;
   const seconds = d.getSeconds();
   const s = seconds < 10 ? `0${seconds}` : seconds;
-  const formatted = `${Months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} at ${h}:${m}:${s} ${ampm}`;
+  let formatted = `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()} at ${h}:${m}:${s} ${ampm}`;
+  if (!shortMonthName) {
+    formatted = `${Months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} at ${h}:${m}:${s} ${ampm}`;
+  }
   return formatted;
 }
 
