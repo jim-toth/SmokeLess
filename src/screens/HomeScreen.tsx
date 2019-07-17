@@ -1,6 +1,7 @@
 import React from 'react';
-import { Platform, ScrollView, Text, FlatList, View, TouchableNativeFeedback } from 'react-native';
+import { Platform, ScrollView, Text, FlatList, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
+
 import { SmokeLogEntry } from '../common/SmokeLogEntry';
 import CountdownTimerButton from '../components/CountdownTimerButton';
 import ToggleButton from '../components/ToggleButton';
@@ -11,6 +12,7 @@ import {
 } from '../db/SmokeLogRepository';
 import { fetchSettings, updateSettings } from '../db/SettingsRepository';
 import { formatPrettyDate } from '../util/helpers';
+import {  } from 'react-navigation';
 
 interface IHomeScreenState {
   lastSmokeDateTime: Date | null;
@@ -28,8 +30,25 @@ const defaultState:IHomeScreenState = {
 };
 
 export default class HomeScreen extends React.Component<any, IHomeScreenState> {
-  static navigationOptions = {
-    title: 'SmokeLess',
+  // tslint:disable-next-line
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'SmokeLess',
+      headerRight: (
+        <ToggleButton
+          iconName={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
+          iconStyle={{ margin: 5, marginLeft: 15, color: 'black' }}
+          iconSize={26}
+          iconColor={'black'}
+          toggled={false}
+          onPress={() => {
+            /* TODO => navigate to settings screen here */
+            console.log('NAVIGATE TO SETTINGS SCREEN');
+            navigation.navigate('Settings');
+          }}
+        />
+      )
+    };
   };
 
   constructor(props:any) {
@@ -113,6 +132,21 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
             iconStyle={{ margin: 5, marginLeft: 15, color: 'black' }}
             iconSize={26}
             iconColor={'black'}
+            iconName={
+              Platform.OS === 'ios'
+                ? 'ios-arrow-dropright'
+                : 'md-arrow-dropright'
+            }
+            toggledIconName={
+              Platform.OS === 'ios'
+                ? 'ios-arrow-dropdown'
+                : 'md-arrow-dropdown'
+            }
+            boundingStyle={{
+              width: '100%',
+              height: 75,
+              margin: 5
+            }}
             toggled={this.state.logListVisible}
             onPress={this._onLogTogglePress}
           />
