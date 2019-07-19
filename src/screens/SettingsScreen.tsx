@@ -26,6 +26,10 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
     await this._fetchData();
   }
 
+  async componentDidUpdate() {
+    await this._fetchData();
+  }
+
   async _fetchData() {
     const settings = await fetchSettings();
     this.setState(settings);
@@ -62,7 +66,7 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
   _onResetConfirmed = async () => {
     await resetSmokeLog();
     await resetSettings();
-    await this._fetchData();
+    await this.props.navigation.navigate('Welcome');
   }
 
   render() {

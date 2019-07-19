@@ -42,8 +42,6 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
           iconColor={'black'}
           toggled={false}
           onPress={() => {
-            /* TODO => navigate to settings screen here */
-            console.log('NAVIGATE TO SETTINGS SCREEN');
             navigation.navigate('Settings');
           }}
         />
