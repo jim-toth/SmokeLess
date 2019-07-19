@@ -1,5 +1,7 @@
 import { AsyncStorage } from 'react-native';
 
+import { boolToIntString, intStringToBool } from '../util/helpers';
+
 type Settings = {
   durationIncrease?: string;
   durationBetweenSmokes?: string;
@@ -7,8 +9,21 @@ type Settings = {
 
 const SettingsDurationIncreaseKey = '@SmokeLess:settings:durationIncrease';
 const SettingsDurationKey = '@SmokeLess:settings:durationBetweenSmokes';
+const SettingsWelcomeCompletedKey = '@SmokeLess:settings:welcomeCompleted';
 
-const SettingsKeys = [ SettingsDurationIncreaseKey, SettingsDurationKey ];
+const SettingsKeys = [
+  SettingsDurationIncreaseKey,
+  SettingsDurationKey,
+  SettingsWelcomeCompletedKey
+];
+
+const updateWelcomeCompleted = async (welcomeCompleted:boolean) => {
+  try {
+    await AsyncStorage.setItem(SettingsWelcomeCompletedKey, boolToIntString(welcomeCompleted));
+  } catch (error) {
+    console.error('Error saving welcome completed flag:', welcomeCompleted, error);
+  }
+}
 
 const updateSettings = async (settings:Settings) => {
   try {
@@ -21,6 +36,20 @@ const updateSettings = async (settings:Settings) => {
   } catch (error) {
     console.error('Error saving settings:', settings, error);
   }
+}
+
+const fetchWelcomeCompleted = async () : Promise<boolean> => {
+  try {
+    let welcomeCompleted = await AsyncStorage.getItem(SettingsWelcomeCompletedKey);
+
+    if (welcomeCompleted !== null) {
+      return intStringToBool(welcomeCompleted);
+    }
+  } catch (error) {
+    console.error('Error fetching welcome completed flag:', error);
+  }
+
+  return false;
 }
 
 const fetchSettings = async () : Promise<Settings> => {
@@ -49,5 +78,7 @@ const resetSettings = async () => {
 export {
   updateSettings,
   fetchSettings,
-  resetSettings
+  resetSettings,
+  updateWelcomeCompleted,
+  fetchWelcomeCompleted
 }

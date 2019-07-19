@@ -30,7 +30,25 @@ const formatPrettyDate = (theDate:Date|null, shortMonthName?:boolean) => {
   return formatted;
 }
 
+const boolToIntString = (theBool:boolean) => {
+  if (theBool) {
+    return '1';
+  } else {
+    return '0';
+  }
+}
+
+const intStringToBool = (theIntString:string) => {
+  if (theIntString === '1') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export {
   sanitizeLastNonNumericChar,
-  formatPrettyDate
+  formatPrettyDate,
+  boolToIntString,
+  intStringToBool
 };
