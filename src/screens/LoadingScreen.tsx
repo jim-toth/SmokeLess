@@ -13,10 +13,8 @@ export default class LoadingScreen extends React.Component {
   _checkWelcomeFlag = async () => {
     let isWelcomeComplete = await fetchWelcomeCompleted();
     if (isWelcomeComplete) {
-      console.log('welcome complete, navigating to Main')
       this.props.navigation.navigate('Main');
     } else {
-      console.log('welcome incomplete, navigating to Welcome')
       this.props.navigation.navigate('Welcome');
     }
   }
