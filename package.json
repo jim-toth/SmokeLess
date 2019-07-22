@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "jest"
+    "test": "jest",
+    "buildandroidapk": "expo build:android -t apk"
   },
   "dependencies": {
     "@expo/samples": "2.1.1",

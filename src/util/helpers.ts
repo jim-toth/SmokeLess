@@ -1,3 +1,5 @@
+import { SmokeLogEntry } from '../common/SmokeLogEntry';
+
 const sanitizeLastNonNumericChar = (value:string) => {
   if (isNaN(parseInt(value[value.length-1]))) {
     value = value.substring(0, value.length-1);
@@ -46,9 +48,14 @@ const intStringToBool = (theIntString:string) => {
   }
 }
 
+const sortSmokeLogEntriesDesc = (a:SmokeLogEntry, b:SmokeLogEntry) => {
+  return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+}
+
 export {
   sanitizeLastNonNumericChar,
   formatPrettyDate,
   boolToIntString,
-  intStringToBool
+  intStringToBool,
+  sortSmokeLogEntriesDesc
 };
