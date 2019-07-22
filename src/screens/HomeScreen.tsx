@@ -74,7 +74,12 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
 
   onPressLogSmoke = async (isExpired: boolean) => {
     let smokeTimestamp = new Date();
-    let newDurationBetweenSmokes = this.state.durationBetweenSmokes + this.state.durationIncrease;
+
+    // If first smoke ever, don't add time increase
+    let newDurationBetweenSmokes = this.state.durationBetweenSmokes
+    if (this.state.smokeLogEntries && this.state.smokeLogEntries.length > 0) {
+      newDurationBetweenSmokes += this.state.durationIncrease;
+    }
 
     await createSmokeLogEntry(smokeTimestamp, !isExpired);
     await updateSettings({
@@ -92,8 +97,7 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
       return new Date();
     }
     let nextSmokeDateTime = this.state.lastSmokeDateTime.getTime()
-      + (this.state.durationBetweenSmokes * 60 * 1000)
-      + (this.state.durationIncrease * 60 * 1000);
+      + (this.state.durationBetweenSmokes * 60 * 1000);
     return new Date(nextSmokeDateTime);
   }
 

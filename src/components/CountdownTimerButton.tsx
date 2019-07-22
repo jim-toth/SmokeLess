@@ -21,11 +21,17 @@ interface ICountdownTimerButtonState {
 }
 
 export default class CountdownTimerButton extends React.Component<ICountdownTimerButtonProps, ICountdownTimerButtonState> {
-  public readonly state = {
-    millisecondsRemaining: this.props.until ? this.props.until.getTime() - Date.now() : -1,
-    timeoutId: 0,
-    previousMilliseconds: 0,
-    isExpired: false
+  constructor(props:ICountdownTimerButtonProps) {
+    super(props);
+
+    const millisecondsRemaining = props.until ? props.until.getTime() - Date.now() : -1;
+
+    this.state = {
+      millisecondsRemaining,
+      timeoutId: 0,
+      previousMilliseconds: 0,
+      isExpired: millisecondsRemaining <= 0
+    }
   }
 
   public componentDidMount(): void {
@@ -45,6 +51,8 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
   public componentDidUpdate(): void {
     if (!this.state.previousMilliseconds && this.state.millisecondsRemaining > 0) {
       this.tick();
+    } else if (!this.state.isExpired) {
+      this.setState({ isExpired: true })
     }
   }
 
@@ -78,7 +86,8 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
     }
 
     const millisecondsRemaining: number = Math.max(this.state.millisecondsRemaining - dt, 0);
-    const isComplete: boolean = this.state.previousMilliseconds && millisecondsRemaining <= 0 ? true : false;
+    // const isComplete: boolean = this.state.previousMilliseconds && millisecondsRemaining <= 0 ? true : false;
+    const isComplete: boolean = millisecondsRemaining <= 0 ? true : false;
 
     if (this.state.timeoutId !== undefined) {
       clearTimeout(this.state.timeoutId);
@@ -97,7 +106,7 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
   };
 
   private getFormattedTime = (milliseconds: number): string => {
-    if (milliseconds < 0) return '--:--:--'
+    if (milliseconds <= 0) return '--:--:--'
     // if (this.props.formatMilliseconds !== undefined) {
     //   return this.props.formatMilliseconds(milliseconds);
     // }
