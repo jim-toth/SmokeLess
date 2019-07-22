@@ -75,15 +75,16 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
   onPressLogSmoke = async (isExpired: boolean) => {
     let smokeTimestamp = new Date();
     let newDurationBetweenSmokes = this.state.durationBetweenSmokes + this.state.durationIncrease;
+
+    await createSmokeLogEntry(smokeTimestamp, !isExpired);
+    await updateSettings({
+      durationBetweenSmokes: newDurationBetweenSmokes.toString() // TODO -> type conversion should take place in repo
+    })
+
     this.setState({
       lastSmokeDateTime: smokeTimestamp,
       durationBetweenSmokes: newDurationBetweenSmokes
     });
-
-    await createSmokeLogEntry(smokeTimestamp, !isExpired);
-    await updateSettings({
-      durationBetweenSmokes: newDurationBetweenSmokes.toString()
-    })
   }
 
   private calculateNextSmokeDateTime() {

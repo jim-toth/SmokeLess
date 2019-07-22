@@ -1,5 +1,7 @@
 import { AsyncStorage } from 'react-native';
+
 import { SmokeLogEntry } from '../common/SmokeLogEntry';
+import { sortSmokeLogEntriesDesc } from '../util/helpers';
 
 const SmokeLogKey = '@SmokeLess:smokes';
 
@@ -21,7 +23,7 @@ const fetchSmokeLogEntries = async () : Promise<SmokeLogEntry[]> => {
     console.error('Error fetching smoke log entries', error);
   }
 
-  return logs.reverse();
+  return logs.sort(sortSmokeLogEntriesDesc);
 }
 
 const createSmokeLogEntry = async (smokeDateTime:Date, cheated:boolean) : Promise<void> => {
@@ -40,7 +42,7 @@ const fetchLastSmokeDateTime = async () : Promise<Date|null> => {
 
   try {
     let logs = await fetchSmokeLogEntries();
-    let latestLogEntry = logs[logs.length - 1];
+    let latestLogEntry = logs[0];
     if (latestLogEntry) {
       lastSmokeDateTime = latestLogEntry.timestamp;
     }
