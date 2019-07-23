@@ -16,8 +16,7 @@ interface ICountdownTimerButtonProps {
 interface ICountdownTimerButtonState {
   millisecondsRemaining: number,
   timeoutId: any,
-  previousMilliseconds?: number,
-  isExpired: boolean
+  previousMilliseconds?: number
 }
 
 export default class CountdownTimerButton extends React.Component<ICountdownTimerButtonProps, ICountdownTimerButtonState> {
@@ -29,8 +28,7 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
     this.state = {
       millisecondsRemaining,
       timeoutId: 0,
-      previousMilliseconds: 0,
-      isExpired: millisecondsRemaining <= 0
+      previousMilliseconds: 0
     }
   }
 
@@ -51,8 +49,6 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
   public componentDidUpdate(): void {
     if (!this.state.previousMilliseconds && this.state.millisecondsRemaining > 0) {
       this.tick();
-    } else if (!this.state.isExpired) {
-      this.setState({ isExpired: true })
     }
   }
 
@@ -61,7 +57,7 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
   }
 
   private isExpired = () : boolean => {
-    return this.state.isExpired;
+    return this.state.millisecondsRemaining <= 0;
   }
 
   _onPress = () => {
@@ -96,20 +92,13 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
     this.setState({
       timeoutId: isComplete ? undefined : setTimeout(this.tick, timeout),
       previousMilliseconds: currentMilliseconds,
-      millisecondsRemaining,
-      isExpired: isComplete
+      millisecondsRemaining
     });
-
-    // if (this.props.onTick !== undefined) {
-    //   this.props.onTick(millisecondsRemaining);
-    // }
   };
 
   private getFormattedTime = (milliseconds: number): string => {
     if (milliseconds <= 0) return '--:--:--'
-    // if (this.props.formatMilliseconds !== undefined) {
-    //   return this.props.formatMilliseconds(milliseconds);
-    // }
+
     const remainingSec: number = Math.round(milliseconds / 1000);
 
     const seconds: number = parseInt((remainingSec % 60).toString(), 10);
@@ -124,17 +113,14 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
   };
 
   render() {
-    const millisecondsRemaining: number = this.state.millisecondsRemaining;
-    const buttonColor = millisecondsRemaining > 0 ? 'red' : 'green';
+    const buttonColor = !this.isExpired() ? 'red' : 'green';
 
     return (
       <Button
         color={buttonColor}
-        title={this.getFormattedTime(millisecondsRemaining)}
+        title={this.getFormattedTime(this.state.millisecondsRemaining)}
         onPress={this._onPress}>
       </Button>
     );
   }
 }
-
-// ReactMixin(CountdownTimerButton.prototype, TimerMixin);
