@@ -1,0 +1,4 @@
+#Mon Jul 29 19:00:28 EDT 2019
+base.0=G\:\\Development\\jim-toth\\SmokeLess\\android\\app\\build\\intermediates\\transforms\\dexMerger\\devKernel\\debug\\9
+path.0=classes.dex
+renamed.0=classes.dex
