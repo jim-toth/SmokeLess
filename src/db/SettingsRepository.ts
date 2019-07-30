@@ -3,8 +3,8 @@ import { AsyncStorage } from 'react-native';
 import { boolToIntString, intStringToBool } from '../util/helpers';
 
 type Settings = {
-  durationIncrease?: string;
-  durationBetweenSmokes?: string;
+  durationIncrease?: number;
+  durationBetweenSmokes?: number;
 }
 
 const SettingsDurationIncreaseKey = '@SmokeLess:settings:durationIncrease';
@@ -28,10 +28,10 @@ const updateWelcomeCompleted = async (welcomeCompleted:boolean) => {
 const updateSettings = async (settings:Settings) => {
   try {
     if (settings.durationIncrease) {
-      await AsyncStorage.setItem(SettingsDurationIncreaseKey, settings.durationIncrease);
+      await AsyncStorage.setItem(SettingsDurationIncreaseKey, settings.durationIncrease.toString());
     }
     if (settings.durationBetweenSmokes) {
-      await AsyncStorage.setItem(SettingsDurationKey, settings.durationBetweenSmokes);
+      await AsyncStorage.setItem(SettingsDurationKey, settings.durationBetweenSmokes.toString());
     }
   } catch (error) {
     console.error('Error saving settings:', settings, error);
@@ -57,8 +57,8 @@ const fetchSettings = async () : Promise<Settings> => {
     let durationIncrease = await AsyncStorage.getItem(SettingsDurationIncreaseKey);
     let durationBetweenSmokes = await AsyncStorage.getItem(SettingsDurationKey);
     return {
-      durationIncrease: durationIncrease !== null ? durationIncrease : undefined,
-      durationBetweenSmokes: durationBetweenSmokes !== null ? durationBetweenSmokes : undefined
+      durationIncrease: durationIncrease !== null ? parseInt(durationIncrease) : undefined,
+      durationBetweenSmokes: durationBetweenSmokes !== null ? parseInt(durationBetweenSmokes) : undefined
     };
   } catch (error) {
     console.error('Error fetching settings', error);
