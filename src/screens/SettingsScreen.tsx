@@ -1,15 +1,23 @@
 import React from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
-import { sanitizeLastNonNumericChar } from '../util/helpers';
+import { View, Text, Button, Alert, Slider } from 'react-native';
+
 import { fetchSettings, updateSettings, resetSettings } from '../db/SettingsRepository';
 import { resetSmokeLog } from '../db/SmokeLogRepository';
+import Values from '../constants/Values';
+import Colors from '../constants/Colors';
 
 interface ISettingsScreenState {
-  durationBetweenSmokes?: string;
-  durationIncrease?: string;
+  durationBetweenSmokes?: number;
+  displayDurationBetweenSmokes?: number;
+  durationIncrease?: number;
+  displayDurationIncrease?: number;
 }
 
 const defaultState:ISettingsScreenState = {
+  durationBetweenSmokes: Values.defaultDurationBetweenSmokes,
+  displayDurationBetweenSmokes: Values.defaultDurationBetweenSmokes,
+  durationIncrease: Values.defaultDurationIncrease,
+  displayDurationIncrease: Values.defaultDurationIncrease
 }
 
 export default class SettingsScreen extends React.Component<any, ISettingsScreenState> {
@@ -26,23 +34,34 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
     await this._fetchData();
   }
 
-  async componentDidUpdate() {
-    await this._fetchData();
-  }
+  // async componentDidUpdate() {
+  //   await this._fetchData();
+  // }
 
   async _fetchData() {
     const settings = await fetchSettings();
-    this.setState(settings);
+    this.setState({
+      durationBetweenSmokes: settings.durationBetweenSmokes,
+      durationIncrease: settings.durationIncrease,
+      displayDurationBetweenSmokes: settings.durationBetweenSmokes,
+      displayDurationIncrease: settings.durationIncrease
+    });
   }
 
-  _setDurationBetweenSmokes = (durationBetweenSmokes:string) => {
-    durationBetweenSmokes = sanitizeLastNonNumericChar(durationBetweenSmokes);
+  _setDurationBetweenSmokes = async (durationBetweenSmokes:number) => {
     this.setState({ durationBetweenSmokes });
   }
 
-  _setIncreaseBetweenSmokes = (durationIncrease:string) => {
-    durationIncrease = sanitizeLastNonNumericChar(durationIncrease);
+  _updateDisplayDurationBetweenSmokes = (displayDurationBetweenSmokes:number) => {
+    this.setState({ displayDurationBetweenSmokes });
+  }
+
+  _setDurationIncrease = (durationIncrease:number) => {
     this.setState({ durationIncrease });
+  }
+
+  _updateDisplayDurationIncrease = (displayDurationIncrease:number) => {
+    this.setState({ displayDurationIncrease });
   }
 
   _onSavePressed = async () => {
@@ -72,23 +91,37 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
   render() {
     return (
       <View style={{padding:10}}>
-        <Text>Duration Between Smokes (minutes)</Text>
-        <TextInput
-          placeholder="90"
-          autoCorrect={false}
-          keyboardType="numeric"
-          onChangeText={this._setDurationBetweenSmokes}
-          value={this.state.durationBetweenSmokes}>
-        </TextInput>
+        <View>
+          <Text>Duration Between Smokes (minutes): {this.state.displayDurationBetweenSmokes}</Text>
+          {/* TODO -> Step decrease button */}
+          <Slider
+            minimumValue={Values.minimumDurationBetweenSmokes}
+            maximumValue={Values.maximumDurationBetweenSmokes}
+            minimumTrackTintColor={Colors.minimumSliderTintColor}
+            maximumTrackTintColor={Colors.maximumSliderTintColor}
+            onValueChange={this._updateDisplayDurationBetweenSmokes}
+            onSlidingComplete={this._setDurationBetweenSmokes}
+            step={1}
+            value={this.state.displayDurationBetweenSmokes}
+          />
+          {/* TODO -> Step increase button */}
+        </View>
 
-        <Text>Duration Increase Between Smokes (minutes)</Text>
-        <TextInput
-          placeholder="1"
-          autoCorrect={false}
-          keyboardType="numeric"
-          onChangeText={this._setIncreaseBetweenSmokes}
-          value={this.state.durationIncrease}>
-        </TextInput>
+        <View>
+          <Text>Duration Increase Between Smokes (minutes): {this.state.displayDurationIncrease}</Text>
+          {/* TODO -> Step decrease button */}
+          <Slider
+            minimumValue={Values.minimumDurationIncrease}
+            maximumValue={Values.maximumDurationIncrease}
+            minimumTrackTintColor={Colors.minimumSliderTintColor}
+            maximumTrackTintColor={Colors.maximumSliderTintColor}
+            onValueChange={this._updateDisplayDurationIncrease}
+            onSlidingComplete={this._setDurationIncrease}
+            step={1}
+            value={this.state.displayDurationIncrease}
+          />
+          {/* TODO -> Step increase button */}
+        </View>
 
         <Button
           onPress={this._onSavePressed}

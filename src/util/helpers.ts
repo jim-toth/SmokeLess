@@ -1,13 +1,5 @@
 import { SmokeLogEntry } from '../common/SmokeLogEntry';
 
-const sanitizeLastNonNumericChar = (value:string) => {
-  if (isNaN(parseInt(value[value.length-1]))) {
-    value = value.substring(0, value.length-1);
-  }
-
-  return value;
-}
-
 const Months = [
   'January', 'February', 'March',
   'April', 'May', 'June',
@@ -53,7 +45,6 @@ const sortSmokeLogEntriesDesc = (a:SmokeLogEntry, b:SmokeLogEntry) => {
 }
 
 export {
-  sanitizeLastNonNumericChar,
   formatPrettyDate,
   boolToIntString,
   intStringToBool,

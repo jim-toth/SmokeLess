@@ -1,15 +1,22 @@
 import React from 'react';
-import { Text, View, Button, TextInput } from 'react-native';
+import { Text, View, Button, Slider } from 'react-native';
 
 import { updateWelcomeCompleted, updateSettings } from '../db/SettingsRepository';
-import { sanitizeLastNonNumericChar } from '../util/helpers';
+import Values from '../constants/Values';
+import Colors from '../constants/Colors';
 
 interface IWelcomeScreenState {
-  durationBetweenSmokes?: string;
-  durationIncrease?: string;
+  durationBetweenSmokes?: number;
+  displayDurationBetweenSmokes?: number;
+  durationIncrease?: number;
+  displayDurationIncrease?: number;
 }
 
 const defaultState:IWelcomeScreenState = {
+  durationBetweenSmokes: Values.defaultDurationBetweenSmokes,
+  displayDurationBetweenSmokes: Values.defaultDurationBetweenSmokes,
+  durationIncrease: Values.defaultDurationIncrease,
+  displayDurationIncrease: Values.defaultDurationIncrease
 }
 
 export default class WelcomeScreen extends React.Component<any,IWelcomeScreenState> {
@@ -27,14 +34,20 @@ export default class WelcomeScreen extends React.Component<any,IWelcomeScreenSta
     await this.props.navigation.navigate('Main');
   }
 
-  _setDurationBetweenSmokes = (durationBetweenSmokes:string) => {
-    durationBetweenSmokes = sanitizeLastNonNumericChar(durationBetweenSmokes);
+  _setDurationBetweenSmokes = (durationBetweenSmokes:number) => {
     this.setState({ durationBetweenSmokes });
   }
 
-  _setIncreaseBetweenSmokes = (durationIncrease:string) => {
-    durationIncrease = sanitizeLastNonNumericChar(durationIncrease);
+  _updateDisplayDurationBetweenSmokes = (displayDurationBetweenSmokes:number) => {
+    this.setState({ displayDurationBetweenSmokes });
+  }
+
+  _setDurationIncrease = (durationIncrease:number) => {
     this.setState({ durationIncrease });
+  }
+
+  _updateDisplayDurationIncrease = (displayDurationIncrease:number) => {
+    this.setState({ displayDurationIncrease });
   }
 
   render() {
@@ -50,23 +63,37 @@ export default class WelcomeScreen extends React.Component<any,IWelcomeScreenSta
         </Text>
         <View style={{ height: '15%' }}></View>
         <View style={{padding:10}}>
-          <Text>Duration Between Smokes (minutes)</Text>
-          <TextInput
-            placeholder="90"
-            autoCorrect={false}
-            keyboardType="numeric"
-            onChangeText={this._setDurationBetweenSmokes}
-            value={this.state.durationBetweenSmokes}>
-          </TextInput>
+          <View>
+            <Text>Duration Between Smokes (minutes): {this.state.displayDurationBetweenSmokes}</Text>
+            {/* TODO -> Step decrease button */}
+            <Slider
+              minimumValue={Values.minimumDurationBetweenSmokes}
+              maximumValue={Values.maximumDurationBetweenSmokes}
+              minimumTrackTintColor={Colors.minimumSliderTintColor}
+              maximumTrackTintColor={Colors.maximumSliderTintColor}
+              onValueChange={this._updateDisplayDurationBetweenSmokes}
+              onSlidingComplete={this._setDurationBetweenSmokes}
+              step={1}
+              value={this.state.displayDurationBetweenSmokes}
+            />
+            {/* TODO -> Step increase button */}
+          </View>
 
-          <Text>Duration Increase Between Smokes (minutes)</Text>
-          <TextInput
-            placeholder="1"
-            autoCorrect={false}
-            keyboardType="numeric"
-            onChangeText={this._setIncreaseBetweenSmokes}
-            value={this.state.durationIncrease}>
-          </TextInput>
+          <View>
+            <Text>Duration Increase Between Smokes (minutes): {this.state.displayDurationIncrease}</Text>
+            {/* TODO -> Step decrease button */}
+            <Slider
+              minimumValue={Values.minimumDurationIncrease}
+              maximumValue={Values.maximumDurationIncrease}
+              minimumTrackTintColor={Colors.minimumSliderTintColor}
+              maximumTrackTintColor={Colors.maximumSliderTintColor}
+              onValueChange={this._updateDisplayDurationIncrease}
+              onSlidingComplete={this._setDurationIncrease}
+              step={1}
+              value={this.state.displayDurationIncrease}
+            />
+            {/* TODO -> Step increase button */}
+          </View>
         </View>
         <View style={{ height: '15%' }}></View>
         <Button title="Done" onPress={this.onFinishedPressed}></Button>
