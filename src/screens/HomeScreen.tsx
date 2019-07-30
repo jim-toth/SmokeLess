@@ -16,8 +16,8 @@ import {  } from 'react-navigation';
 
 interface IHomeScreenState {
   lastSmokeDateTime: Date | null;
-  durationBetweenSmokes: number;
-  durationIncrease: number;
+  durationBetweenSmokes?: number;
+  durationIncrease?: number;
   smokeLogEntries?: SmokeLogEntry[];
   logListVisible: boolean;
 }
@@ -58,42 +58,46 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
     await this._fetchData();
   }
 
-  async componentDidUpdate() {
-    await this._fetchData();
-  }
-
   async _fetchData() {
     const settings = await fetchSettings();
     const fetchedLastSmokeDateTime = await fetchLastSmokeDateTime();
     const lastSmokeDateTime = fetchedLastSmokeDateTime ? new Date(fetchedLastSmokeDateTime) : null;
-    const durationBetweenSmokes = settings.durationBetweenSmokes ? parseFloat(settings.durationBetweenSmokes) : 0;
-    const durationIncrease = settings.durationIncrease ? parseFloat(settings.durationIncrease) : 0;
+    const durationBetweenSmokes = settings.durationBetweenSmokes;
+    const durationIncrease = settings.durationIncrease;
     const smokeLogEntries = await fetchSmokeLogEntries();
-    this.setState({ lastSmokeDateTime, durationBetweenSmokes, durationIncrease, smokeLogEntries });
+    this.setState({
+      lastSmokeDateTime,
+      durationBetweenSmokes,
+      durationIncrease,
+      smokeLogEntries
+    });
   }
 
   onPressLogSmoke = async (isExpired: boolean) => {
     let smokeTimestamp = new Date();
+    let newDurationBetweenSmokes = this.state.durationBetweenSmokes;
 
     // If first smoke ever, don't add time increase
-    let newDurationBetweenSmokes = this.state.durationBetweenSmokes
-    if (this.state.smokeLogEntries && this.state.smokeLogEntries.length > 0) {
+    if (this.state.smokeLogEntries &&
+        this.state.durationIncrease &&
+        newDurationBetweenSmokes &&
+        this.state.smokeLogEntries.length > 0) {
       newDurationBetweenSmokes += this.state.durationIncrease;
     }
 
     await createSmokeLogEntry(smokeTimestamp, !isExpired);
-    await updateSettings({
-      durationBetweenSmokes: newDurationBetweenSmokes.toString() // TODO -> type conversion should take place in repo
-    })
+    await updateSettings({ durationBetweenSmokes: newDurationBetweenSmokes });
+    const smokeLogEntries = await fetchSmokeLogEntries();
 
     this.setState({
       lastSmokeDateTime: smokeTimestamp,
-      durationBetweenSmokes: newDurationBetweenSmokes
+      durationBetweenSmokes: newDurationBetweenSmokes,
+      smokeLogEntries
     });
   }
 
   private calculateNextSmokeDateTime() {
-    if (!this.state.lastSmokeDateTime) {
+    if (!this.state.lastSmokeDateTime || !this.state.durationBetweenSmokes) {
       return new Date();
     }
     let nextSmokeDateTime = this.state.lastSmokeDateTime.getTime()
