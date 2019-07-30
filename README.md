@@ -24,6 +24,9 @@ SmokeLess is a mobile application to aid users in their journey to smoke less to
   * If the above fails check the Expo documentation [here](https://docs.expo.io/versions/v34.0.0/distribution/building-standalone-apps/)
 - Expo will build the app and generate a link where you can download the APK and install on your phone.  Make sure you have third party APK installations enabled.
 
+## Contributing
+- Create a merge request on gitlab pointing to the current prerelease branch (Currently: `MVP`)
+
 ## Resources
 - [Expo Documentation](https://docs.expo.io/versions/latest/)
 - [React Native 32 Documentation](https://facebook.github.io/react-native/docs/0.32)
