@@ -2,15 +2,37 @@
 import * as React from 'react';
 // import ReactMixin from 'react-mixin';
 // import * as TimerMixin from 'react-timer-mixin';
-import { Button } from 'react-native';
+import { View, Text, TouchableNativeFeedback } from 'react-native';
 
 // Some code modified from https://github.com/noelyoo/react-native-timer-countdown/blob/master/index.tsx
+
+const defaultStyle:any = {
+  button: {
+    width: '80%',
+    backgroundColor: 'red',
+    borderWidth: 1,
+    borderColor: 'black'
+  },
+  buttonExpired: {
+    width: '80%',
+    backgroundColor: 'green'
+  },
+  text: {
+    color: 'white',
+    margin: 5,
+    width: '100%',
+    textAlign: 'center',
+  }
+}
 
 interface ICountdownTimerButtonProps {
   bottomText?: string;
   until?: Date;
   resetOnPress?: boolean;
   onPress?: (beforeTimerExpired: boolean) => void;
+  buttonStyle?: any;
+  buttonExpiredStyle?: any;
+  textStyle?: any;
 }
 
 interface ICountdownTimerButtonState {
@@ -30,6 +52,12 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
       timeoutId: 0,
       previousMilliseconds: 0
     }
+  }
+
+  static defaultProps = {
+    buttonStyle: defaultStyle.button,
+    buttonExpiredStyle: defaultStyle.buttonExpired,
+    textStyle: defaultStyle.text
   }
 
   public componentDidMount(): void {
@@ -113,14 +141,15 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
   };
 
   render() {
-    const buttonColor = !this.isExpired() ? 'red' : 'green';
-
     return (
-      <Button
-        color={buttonColor}
-        title={this.getFormattedTime(this.state.millisecondsRemaining)}
-        onPress={this._onPress}>
-      </Button>
+      <TouchableNativeFeedback
+        onPress={this._onPress}
+        background={TouchableNativeFeedback.SelectableBackground()}
+      >
+        <View style={this.isExpired() ? this.props.buttonExpiredStyle : this.props.buttonStyle}>
+          <Text style={this.props.textStyle}>{this.getFormattedTime(this.state.millisecondsRemaining)}</Text>
+        </View>
+      </TouchableNativeFeedback>
     );
   }
 }

@@ -1,6 +1,8 @@
 import React from 'react';
-import { Platform, ScrollView, Text, FlatList, View } from 'react-native';
+import { Platform, ScrollView, Text, FlatList, View, Dimensions, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
+import {  } from 'react-navigation'; // TODO -> fix this to fix error down below?
+import SlidingUpPanel from 'rn-sliding-up-panel';
 
 import { SmokeLogEntry } from '../common/SmokeLogEntry';
 import CountdownTimerButton from '../components/CountdownTimerButton';
@@ -12,7 +14,52 @@ import {
 } from '../db/SmokeLogRepository';
 import { fetchSettings, updateSettings } from '../db/SettingsRepository';
 import { formatPrettyDate } from '../util/helpers';
-import {  } from 'react-navigation';
+
+const { height } = Dimensions.get("window");
+
+const screenStyles = {
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'black'
+  },
+
+  // TOP VIEW
+  topContainer: {
+    width: '100%'
+    
+  },
+  topContainerText: {
+    
+  },
+
+  // BOTTOM VIEW
+  bottomContainer: {
+    flex: 1,
+    width: '100%',
+
+    backgroundColor: 'white',
+
+    borderWidth: 1,
+    borderColor: 'black'
+  },
+  bottomContainerTitleText: {
+
+  },
+  logContainer: {
+    width: '100%'
+  }
+}
+
+interface IHomeScreenProps {
+  draggableRange: { top: number, bottom: number };
+}
+
+const defaultProps:IHomeScreenProps = {
+  draggableRange: { top: height - 64, bottom: 64 }
+}
 
 interface IHomeScreenState {
   lastSmokeDateTime: Date | null;
@@ -29,7 +76,14 @@ const defaultState:IHomeScreenState = {
   logListVisible: false
 };
 
-export default class HomeScreen extends React.Component<any, IHomeScreenState> {
+export default class HomeScreen extends React.Component<IHomeScreenProps, IHomeScreenState> {
+  constructor(props:any) {
+    super(props);
+    this.state = defaultState
+  }
+
+  static defaultProps = defaultProps;
+  
   // tslint:disable-next-line
   static navigationOptions = ({ navigation }) => {
     return {
@@ -49,10 +103,7 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
     };
   };
 
-  constructor(props:any) {
-    super(props);
-    this.state = defaultState
-  }
+  _panel:any = null;
 
   async componentDidMount() {
     await this._fetchData();
@@ -114,77 +165,53 @@ export default class HomeScreen extends React.Component<any, IHomeScreenState> {
   }
 
   render() {
-    const logDisplayStyle = this.state.logListVisible ? { width: '100%' } : { width: '100%', display: "none" };
 
     return (
-      <View style={{
-        display: 'flex',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start'
-      }}>
-        <View style={{ height: '10%' }}></View>
-        <View style={{ alignSelf: 'center', width: '80%' }}>
+      <View style={screenStyles.container}>
+        <View style={screenStyles.topContainer}>
           <CountdownTimerButton
             until={this.calculateNextSmokeDateTime()}
             onPress={this.onPressLogSmoke}
           />
-          <Text style={{ alignSelf: 'center' }}>until next smoke</Text>
+          <Text style={screenStyles.topContainerText}>until next smoke</Text>
         </View>
-        <View style={{ height: '10%' }}></View>
-        <View style={{ alignSelf: 'center', width: '100%', alignContent: 'center' }}>
-          <ToggleButton
-            text={`You last had a smoke on ${formatPrettyDate(this.state.lastSmokeDateTime, true)}`}
-            textStyle={{ paddingLeft: 5, paddingTop: 15, paddingBottom: 15 }}
-            iconStyle={{ margin: 5, marginLeft: 15, color: 'black' }}
-            iconSize={26}
-            iconColor={'black'}
-            iconName={
-              Platform.OS === 'ios'
-                ? 'ios-arrow-dropright'
-                : 'md-arrow-dropright'
-            }
-            toggledIconName={
-              Platform.OS === 'ios'
-                ? 'ios-arrow-dropdown'
-                : 'md-arrow-dropdown'
-            }
-            boundingStyle={{
-              width: '100%',
-              height: 75,
-              margin: 5
-            }}
-            toggled={this.state.logListVisible}
-            onPress={this._onLogTogglePress}
-          />
-        </View>
-        <ScrollView style={logDisplayStyle}>
-          <FlatList
-            data={this._getSafeSmokeLogEntries()}
-            renderItem={({item}) => {
-              const focused = false;
-              const cheatedIcon = item.cheated ? 'close-circle' : 'checkmark-circle';
-              const cheatedBackground = item.cheated ? 'red' : 'green';
-              const iconStyle = { margin: 5, color: cheatedBackground };
-              return (
-                <View style={{ flex: 1, flexDirection: 'row', margin: 5 }}>
-                  <Ionicons
-                    name={
-                      Platform.OS === 'ios'
-                        ? `ios-${cheatedIcon}${focused ? '' : '-outline'}`
-                        : `md-${cheatedIcon}`
-                    }
-                    size={26}
-                    style={iconStyle}
-                    color={'black'}
-                  />
-                  <Text style={{ fontSize: 16, textAlignVertical: 'center' }}>{formatPrettyDate(item.timestamp)}</Text>
-                </View>
-              );
-            }}
-            keyExtractor={(item, index) => index.toString()}>
-          </FlatList>
-        </ScrollView>
+        <SlidingUpPanel
+          ref={c => this._panel = c}
+          draggableRange={this.props.draggableRange}
+        >
+          <View style={screenStyles.bottomContainer}>
+            <View style={screenStyles.bottomContainerTitleText}>
+              <Text>You last had a smoke on {formatPrettyDate(this.state.lastSmokeDateTime, true)}</Text>
+            </View>
+            <ScrollView style={screenStyles.logContainer}>
+              <FlatList
+                data={this._getSafeSmokeLogEntries()}
+                renderItem={({item}) => {
+                  const focused = false;
+                  const cheatedIcon = item.cheated ? 'close-circle' : 'checkmark-circle';
+                  const cheatedBackground = item.cheated ? 'red' : 'green';
+                  const iconStyle = { margin: 5, color: cheatedBackground };
+                  return (
+                    <View style={{ flex: 1, flexDirection: 'row', margin: 5 }}>
+                      <Ionicons
+                        name={
+                          Platform.OS === 'ios'
+                            ? `ios-${cheatedIcon}${focused ? '' : '-outline'}`
+                            : `md-${cheatedIcon}`
+                        }
+                        size={26}
+                        style={iconStyle}
+                        color={'black'}
+                      />
+                      <Text style={{ fontSize: 16, textAlignVertical: 'center' }}>{formatPrettyDate(item.timestamp)}</Text>
+                    </View>
+                  );
+                }}
+                keyExtractor={(item, index) => index.toString()}>
+              </FlatList>
+            </ScrollView>
+          </View>
+        </SlidingUpPanel>
       </View>
     );
   }
