@@ -1,9 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
 import { fetchWelcomeCompleted } from '../db/SettingsRepository';
 
-export default class LoadingScreen extends React.Component {
+class LoadingScreen extends React.Component<NavigationInjectedProps> {
 
   constructor(props:any) {
     super(props);
@@ -28,3 +29,5 @@ export default class LoadingScreen extends React.Component {
     );
   }
 }
+
+export default withNavigation(LoadingScreen);
