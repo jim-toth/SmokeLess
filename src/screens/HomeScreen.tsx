@@ -1,7 +1,7 @@
 import React from 'react';
-import { Platform, ScrollView, Text, FlatList, View, Dimensions, Button } from 'react-native';
+import { Platform, ScrollView, Text, FlatList, View, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
-import {  } from 'react-navigation'; // TODO -> fix this to fix error down below?
+import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 
 import { SmokeLogEntry } from '../common/SmokeLogEntry';
@@ -53,14 +53,6 @@ const screenStyles = {
   }
 }
 
-interface IHomeScreenProps {
-  draggableRange: { top: number, bottom: number };
-}
-
-const defaultProps:IHomeScreenProps = {
-  draggableRange: { top: height - 64, bottom: 64 }
-}
-
 interface IHomeScreenState {
   lastSmokeDateTime: Date | null;
   durationBetweenSmokes?: number;
@@ -76,32 +68,29 @@ const defaultState:IHomeScreenState = {
   logListVisible: false
 };
 
-export default class HomeScreen extends React.Component<IHomeScreenProps, IHomeScreenState> {
+class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenState> {
   constructor(props:any) {
     super(props);
     this.state = defaultState
   }
-
-  static defaultProps = defaultProps;
   
-  // tslint:disable-next-line
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'SmokeLess',
-      headerRight: (
-        <ToggleButton
-          iconName={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
-          iconStyle={{ margin: 5, marginLeft: 15, color: 'black' }}
-          iconSize={26}
-          iconColor={'black'}
-          toggled={false}
-          onPress={() => {
-            navigation.navigate('Settings');
-          }}
-        />
-      )
-    };
-  };
+  static navigationOptions = (props:NavigationInjectedProps) => { return {
+    title: 'SmokeLess',
+    headerRight: (
+      <ToggleButton
+        iconName={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
+        iconStyle={{ margin: 5, marginLeft: 15, color: 'black' }}
+        iconSize={26}
+        iconColor={'black'}
+        toggled={false}
+        onPress={() => {
+          props.navigation.navigate('Settings');
+        }}
+      />
+    )
+  } };
+
+  draggableRange:any = { top: height - 64, bottom: 64 };
 
   _panel:any = null;
 
@@ -177,7 +166,7 @@ export default class HomeScreen extends React.Component<IHomeScreenProps, IHomeS
         </View>
         <SlidingUpPanel
           ref={c => this._panel = c}
-          draggableRange={this.props.draggableRange}
+          draggableRange={this.draggableRange}
         >
           <View style={screenStyles.bottomContainer}>
             <View style={screenStyles.bottomContainerTitleText}>
@@ -216,3 +205,5 @@ export default class HomeScreen extends React.Component<IHomeScreenProps, IHomeS
     );
   }
 }
+
+export default withNavigation(HomeScreen);

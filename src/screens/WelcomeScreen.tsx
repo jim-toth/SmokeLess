@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, Button, Slider } from 'react-native';
+import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
 import { updateWelcomeCompleted, updateSettings } from '../db/SettingsRepository';
 import Values from '../constants/Values';
@@ -19,7 +20,7 @@ const defaultState:IWelcomeScreenState = {
   displayDurationIncrease: Values.defaultDurationIncrease
 }
 
-export default class WelcomeScreen extends React.Component<any,IWelcomeScreenState> {
+class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScreenState> {
   constructor(props:any) {
     super(props);
     this.state = defaultState;
@@ -101,3 +102,5 @@ export default class WelcomeScreen extends React.Component<any,IWelcomeScreenSta
     );
   }
 }
+
+export default withNavigation(WelcomeScreen);

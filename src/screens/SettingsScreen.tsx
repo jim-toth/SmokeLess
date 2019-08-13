@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, Alert, Slider } from 'react-native';
+import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
 import { fetchSettings, updateSettings, resetSettings } from '../db/SettingsRepository';
 import { resetSmokeLog } from '../db/SmokeLogRepository';
@@ -20,7 +21,7 @@ const defaultState:ISettingsScreenState = {
   displayDurationIncrease: Values.defaultDurationIncrease
 }
 
-export default class SettingsScreen extends React.Component<any, ISettingsScreenState> {
+class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsScreenState> {
   static navigationOptions = {
     title: 'Settings',
   };
@@ -136,3 +137,5 @@ export default class SettingsScreen extends React.Component<any, ISettingsScreen
     );
   }
 }
+
+export default withNavigation(SettingsScreen);
