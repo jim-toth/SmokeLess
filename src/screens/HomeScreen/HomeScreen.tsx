@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, ScrollView, Text, FlatList, View, Dimensions } from 'react-native';
+import { Platform, ScrollView, Text, FlatList, View, Dimensions, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
@@ -24,14 +24,14 @@ interface IHomeScreenState {
   durationBetweenSmokes?: number;
   durationIncrease?: number;
   smokeLogEntries?: SmokeLogEntry[];
-  logListVisible: boolean;
+  drawerOpen: boolean;
 }
 
 const defaultState:IHomeScreenState = {
   lastSmokeDateTime: null,
   durationBetweenSmokes: 60,
   durationIncrease: 5,
-  logListVisible: false
+  drawerOpen: false
 };
 
 class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenState> {
@@ -56,12 +56,23 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     )
   } };
 
-  draggableRange:any = { top: height - 80, bottom: 64 };
-
   _panel:any = null;
+  draggableRange:any = { top: height - 80, bottom: 64 };
+  animatedValue = new Animated.Value(this.draggableRange.bottom);
 
   async componentDidMount() {
+    this.animatedValue.addListener(({value}) => {
+      if (this.state.drawerOpen && value === this.draggableRange.bottom) {
+        this.setState({ drawerOpen: false });
+      } else if (!this.state.drawerOpen && value !== this.draggableRange.bottom) {
+        this.setState({ drawerOpen: true });
+      }
+    });
     await this._fetchData();
+  }
+
+  componentWillUnmount() {
+    this.animatedValue.removeAllListeners();
   }
 
   async _fetchData() {
@@ -115,16 +126,13 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     return this.state.smokeLogEntries || null;
   }
 
-  _onLogTogglePress = async () => {
-    this.setState({ logListVisible: !this.state.logListVisible });
-  }
-
   render() {
     const nextSmokeDateTime = this.calculateNextSmokeDateTime();
     const expired = (new Date()).getTime() > nextSmokeDateTime.getTime();
     const reminderString = expired
       ? `Your next smoke is right now`
       : `Your next smoke will be at ${formatPrettyDate(nextSmokeDateTime, {shortMonthName: true, timeOnly: true})}`;
+
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
@@ -137,6 +145,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
         <SlidingUpPanel
           ref={c => this._panel = c}
           draggableRange={this.draggableRange}
+          animatedValue={this.animatedValue}
         >
           {dragHandler => (
             <View style={styles.bottomContainer}>
@@ -144,6 +153,13 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
                 <Text>
                   You last had a smoke on {formatPrettyDate(this.state.lastSmokeDateTime, {shortMonthName: true})}
                 </Text>
+                <View style={this.state.drawerOpen ? {display: 'none'} : {display: 'flex'}}>
+                  <Ionicons
+                    name={Platform.OS === 'ios' ? `ios-arrow-dropdown` : `md-arrow-dropdown`}
+                    size={26}
+                    style={styles.dragIcon}
+                  />
+                </View>
               </View>
               <ScrollView style={styles.logContainer}>
                 <FlatList
@@ -154,11 +170,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
                     return (
                       <View style={styles.logEntryWrapper}>
                         <Ionicons
-                          name={
-                            Platform.OS === 'ios'
-                              ? `ios-${cheatedIcon}`
-                              : `md-${cheatedIcon}`
-                          }
+                          name={Platform.OS === 'ios' ? `ios-${cheatedIcon}` : `md-${cheatedIcon}`}
                           size={26}
                           style={[styles.logIcon, iconColor]}
                         />
