@@ -120,14 +120,19 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
   }
 
   render() {
+    const nextSmokeDateTime = this.calculateNextSmokeDateTime();
+    const expired = (new Date()).getTime() > nextSmokeDateTime.getTime();
+    const reminderString = expired
+      ? `Your next smoke is right now`
+      : `Your next smoke will be at ${formatPrettyDate(nextSmokeDateTime, {shortMonthName: true, timeOnly: true})}`;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <CountdownTimerButton
-            until={this.calculateNextSmokeDateTime()}
+            until={nextSmokeDateTime}
             onPress={this.onPressLogSmoke}
           />
-          <Text style={styles.topContainerText}>until next smoke</Text>
+          <Text style={styles.topContainerText}>{reminderString}</Text>
         </View>
         <SlidingUpPanel
           ref={c => this._panel = c}
@@ -137,7 +142,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
             <View style={styles.bottomContainer}>
               <View style={styles.bottomContainerTitleHandle} {...dragHandler}>
                 <Text>
-                  You last had a smoke on {formatPrettyDate(this.state.lastSmokeDateTime, true)}
+                  You last had a smoke on {formatPrettyDate(this.state.lastSmokeDateTime, {shortMonthName: true})}
                 </Text>
               </View>
               <ScrollView style={styles.logContainer}>
