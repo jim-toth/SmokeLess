@@ -2,9 +2,9 @@ import React from 'react';
 import { Text, View, Button, Slider } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
-import { updateWelcomeCompleted, updateSettings } from '../db/SettingsRepository';
-import Values from '../constants/Values';
-import Colors from '../constants/Colors';
+import { updateWelcomeCompleted, updateSettings } from '../../db/SettingsRepository';
+import Values from '../../constants/Values';
+import { Colors } from '../../Styles';
 
 interface IWelcomeScreenState {
   durationBetweenSmokes?: number;

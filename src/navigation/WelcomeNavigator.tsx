@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation';
 
-import WelcomeScreen from '../screens/WelcomeScreen';
+import WelcomeScreen from '../screens/WelcomeScreen/WelcomeScreen';
 
 export default createStackNavigator(
   {

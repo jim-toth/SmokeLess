@@ -4,54 +4,20 @@ import { Ionicons } from '@expo/vector-icons'
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 
-import { SmokeLogEntry } from '../common/SmokeLogEntry';
-import CountdownTimerButton from '../components/CountdownTimerButton';
-import ToggleButton from '../components/ToggleButton';
+import { SmokeLogEntry } from '../../common/SmokeLogEntry';
+import CountdownTimerButton from '../../components/CountdownTimerButton';
+import ToggleButton from '../../components/ToggleButton';
 import {
   createSmokeLogEntry,
   fetchLastSmokeDateTime,
   fetchSmokeLogEntries
-} from '../db/SmokeLogRepository';
-import { fetchSettings, updateSettings } from '../db/SettingsRepository';
-import { formatPrettyDate } from '../util/helpers';
+} from '../../db/SmokeLogRepository';
+import { fetchSettings, updateSettings } from '../../db/SettingsRepository';
+import { formatPrettyDate } from '../../util/helpers';
 
-const { height } = Dimensions.get("window");
+import { styles } from './Styles';
 
-const screenStyles = {
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'black'
-  },
-
-  // TOP VIEW
-  topContainer: {
-    width: '100%'
-    
-  },
-  topContainerText: {
-    
-  },
-
-  // BOTTOM VIEW
-  bottomContainer: {
-    flex: 1,
-    width: '100%',
-
-    backgroundColor: 'white',
-
-    borderWidth: 1,
-    borderColor: 'black'
-  },
-  bottomContainerTitleText: {
-
-  },
-  logContainer: {
-    width: '100%'
-  }
-}
+const { height } = Dimensions.get('window');
 
 interface IHomeScreenState {
   lastSmokeDateTime: Date | null;
@@ -79,7 +45,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     headerRight: (
       <ToggleButton
         iconName={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
-        iconStyle={{ margin: 5, marginLeft: 15, color: 'black' }}
+        iconStyle={styles.settingsIcon}
         iconSize={26}
         iconColor={'black'}
         toggled={false}
@@ -90,7 +56,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     )
   } };
 
-  draggableRange:any = { top: height - 64, bottom: 64 };
+  draggableRange:any = { top: height - 80, bottom: 64 };
 
   _panel:any = null;
 
@@ -154,52 +120,54 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
   }
 
   render() {
-
     return (
-      <View style={screenStyles.container}>
-        <View style={screenStyles.topContainer}>
+      <View style={styles.container}>
+        <View style={styles.topContainer}>
           <CountdownTimerButton
             until={this.calculateNextSmokeDateTime()}
             onPress={this.onPressLogSmoke}
           />
-          <Text style={screenStyles.topContainerText}>until next smoke</Text>
+          <Text style={styles.topContainerText}>until next smoke</Text>
         </View>
         <SlidingUpPanel
           ref={c => this._panel = c}
           draggableRange={this.draggableRange}
         >
-          <View style={screenStyles.bottomContainer}>
-            <View style={screenStyles.bottomContainerTitleText}>
-              <Text>You last had a smoke on {formatPrettyDate(this.state.lastSmokeDateTime, true)}</Text>
+          {dragHandler => (
+            <View style={styles.bottomContainer}>
+              <View style={styles.bottomContainerTitleHandle} {...dragHandler}>
+                <Text>
+                  You last had a smoke on {formatPrettyDate(this.state.lastSmokeDateTime, true)}
+                </Text>
+              </View>
+              <ScrollView style={styles.logContainer}>
+                <FlatList
+                  data={this._getSafeSmokeLogEntries()}
+                  renderItem={({item}) => {
+                    const cheatedIcon = item.cheated ? 'close-circle' : 'checkmark-circle';
+                    const iconColor = { color: item.cheated ? 'red' : 'green' };
+                    return (
+                      <View style={styles.logEntryWrapper}>
+                        <Ionicons
+                          name={
+                            Platform.OS === 'ios'
+                              ? `ios-${cheatedIcon}`
+                              : `md-${cheatedIcon}`
+                          }
+                          size={26}
+                          style={[styles.logIcon, iconColor]}
+                        />
+                        <Text style={styles.logText}>
+                          {formatPrettyDate(item.timestamp)}
+                        </Text>
+                      </View>
+                    );
+                  }}
+                  keyExtractor={(item, index) => { item; return index.toString();} }
+                />
+              </ScrollView>
             </View>
-            <ScrollView style={screenStyles.logContainer}>
-              <FlatList
-                data={this._getSafeSmokeLogEntries()}
-                renderItem={({item}) => {
-                  const focused = false;
-                  const cheatedIcon = item.cheated ? 'close-circle' : 'checkmark-circle';
-                  const cheatedBackground = item.cheated ? 'red' : 'green';
-                  const iconStyle = { margin: 5, color: cheatedBackground };
-                  return (
-                    <View style={{ flex: 1, flexDirection: 'row', margin: 5 }}>
-                      <Ionicons
-                        name={
-                          Platform.OS === 'ios'
-                            ? `ios-${cheatedIcon}${focused ? '' : '-outline'}`
-                            : `md-${cheatedIcon}`
-                        }
-                        size={26}
-                        style={iconStyle}
-                        color={'black'}
-                      />
-                      <Text style={{ fontSize: 16, textAlignVertical: 'center' }}>{formatPrettyDate(item.timestamp)}</Text>
-                    </View>
-                  );
-                }}
-                keyExtractor={(item, index) => index.toString()}>
-              </FlatList>
-            </ScrollView>
-          </View>
+          )}
         </SlidingUpPanel>
       </View>
     );
