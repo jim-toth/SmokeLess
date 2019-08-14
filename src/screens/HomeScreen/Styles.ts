@@ -22,7 +22,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  topContainerText: {},
+  topContainerText: {
+    padding: 5
+  },
 
   // BOTTOM VIEW
   bottomContainer: {
