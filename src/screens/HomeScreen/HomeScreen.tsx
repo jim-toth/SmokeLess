@@ -129,17 +129,16 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
   render() {
     const nextSmokeDateTime = this.calculateNextSmokeDateTime();
     const expired = (new Date()).getTime() > nextSmokeDateTime.getTime();
-    const reminderString = expired
+    const reminderString = expired || !this.state.lastSmokeDateTime
       ? `Your next smoke is right now`
       : `Your next smoke will be at ${formatPrettyDate(nextSmokeDateTime, {shortMonthName: true, timeOnly: true})}`;
-
+    const nextSmokeString = !this.state.lastSmokeDateTime
+      ? `You haven't logged any smokes yet`
+      : `You last had a smoke on ${formatPrettyDate(this.state.lastSmokeDateTime, {shortMonthName: true})}`;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
-          <CountdownTimerButton
-            until={nextSmokeDateTime}
-            onPress={this.onPressLogSmoke}
-          />
+          <CountdownTimerButton until={nextSmokeDateTime} onPress={this.onPressLogSmoke} />
           <Text style={styles.topContainerText}>{reminderString}</Text>
         </View>
         <SlidingUpPanel
@@ -150,9 +149,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
           {dragHandler => (
             <View style={styles.bottomContainer}>
               <View style={styles.bottomContainerTitleHandle} {...dragHandler}>
-                <Text>
-                  You last had a smoke on {formatPrettyDate(this.state.lastSmokeDateTime, {shortMonthName: true})}
-                </Text>
+                <Text>{nextSmokeString}</Text>
                 <View style={this.state.drawerOpen ? {display: 'none'} : {display: 'flex'}}>
                   <Ionicons
                     name={Platform.OS === 'ios' ? `ios-arrow-dropdown` : `md-arrow-dropdown`}
