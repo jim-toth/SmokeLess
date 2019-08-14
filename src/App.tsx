@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
-// tslint:disable-next-line:no-implicit-dependencies
-import { Ionicons } from '@expo/vector-icons';
 
-import AppContainer from './navigation/AppContainer';
+import createAppContainer from './navigation/AppContainer';
+import { fetchWelcomeCompleted } from './db/SettingsRepository';
 
 interface IAppProps {
   skipLoadingScreen?: boolean;
@@ -31,11 +30,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
         />
       );
     } else {
+      const AppContainer = createAppContainer(this.state.isWelcomeComplete);
       return (
         <View style={styles.container}>
           {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
           <AppContainer />
-          {/* <HomeScreen /> */}
         </View>
       );
     }
@@ -43,6 +42,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   _loadResourcesAsync = async () => {
     Promise.all([
+      fetchWelcomeCompleted(),
       // Asset.loadAsync([
       //   require('./assets/images/robot-dev.png'),
       //   require('./assets/images/robot-prod.png'),
@@ -54,7 +54,10 @@ export default class App extends React.Component<IAppProps, IAppState> {
         // to remove this if you are not using it in your app
         // 'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
       })
-    ]).then(() => { return null; });
+    ]).then((res) => {
+      this.setState({ isWelcomeComplete: res[0] })
+      return null;
+    });
   };
 
   _handleLoadingError = (error:any) => {
