@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { AppLoading, Font } from 'expo';
 
 import createAppContainer from './navigation/AppContainer';
 import { fetchWelcomeCompleted } from './db/SettingsRepository';
+
+import { AppStyle } from './Styles';
 
 interface IAppProps {
   skipLoadingScreen?: boolean;
@@ -32,7 +34,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     } else {
       const AppContainer = createAppContainer(this.state.isWelcomeComplete);
       return (
-        <View style={styles.container}>
+        <View style={AppStyle.container}>
           {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
           <AppContainer />
         </View>
@@ -66,10 +68,3 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.setState({ isLoadingComplete: true });
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});

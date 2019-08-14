@@ -24,10 +24,6 @@ const defaultState:ISettingsScreenState = {
 }
 
 class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsScreenState> {
-  static navigationOptions = {
-    title: 'Settings',
-  };
-
   constructor(props:any) {
     super(props);
     this.state = defaultState

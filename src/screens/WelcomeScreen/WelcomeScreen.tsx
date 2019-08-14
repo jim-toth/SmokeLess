@@ -5,6 +5,7 @@ import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import { updateWelcomeCompleted, updateSettings } from '../../db/SettingsRepository';
 import Values from '../../constants/Values';
 import { Colors } from '../../Styles';
+import { styles } from './Styles';
 
 interface IWelcomeScreenState {
   durationBetweenSmokes?: number;
@@ -53,19 +54,17 @@ class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScre
 
   render() {
     return (
-      <View style={{ height: '100%' }}>
-        <View style={{ height: '25%' }}></View>
-        <Text style={{ marginLeft: 25 }}>
+      <View style={styles.container}>
+        <Text style={styles.bodyTitleText}>
           Welcome to SmokeLess.
         </Text>
-        <Text style={{ marginLeft: 25 }}>
+        <Text style={styles.bodyText}>
           To get started, enter how often you smoke
           and the duration increase between smokes you'd like to track.
         </Text>
-        <View style={{ height: '15%' }}></View>
-        <View style={{padding:10}}>
-          <View>
-            <Text>Duration Between Smokes (minutes): {this.state.displayDurationBetweenSmokes}</Text>
+        <View style={styles.inputContainer}>
+          <View style={styles.durationSliderContainer}>
+            <Text style={styles.durationSliderText}>Duration Between Smokes (minutes): {this.state.displayDurationBetweenSmokes}</Text>
             {/* TODO -> Step decrease button */}
             <Slider
               minimumValue={Values.minimumDurationBetweenSmokes}
@@ -80,8 +79,8 @@ class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScre
             {/* TODO -> Step increase button */}
           </View>
 
-          <View>
-            <Text>Duration Increase Between Smokes (minutes): {this.state.displayDurationIncrease}</Text>
+          <View style={styles.increaseSliderContainer}>
+            <Text style={styles.increaseSliderText}>Duration Increase Between Smokes (minutes): {this.state.displayDurationIncrease}</Text>
             {/* TODO -> Step decrease button */}
             <Slider
               minimumValue={Values.minimumDurationIncrease}
@@ -96,7 +95,6 @@ class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScre
             {/* TODO -> Step increase button */}
           </View>
         </View>
-        <View style={{ height: '15%' }}></View>
         <Button title="Done" onPress={this.onFinishedPressed}></Button>
       </View>
     );
