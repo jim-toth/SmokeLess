@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
-import { fetchWelcomeCompleted } from '../db/SettingsRepository';
+import { fetchWelcomeCompleted } from '../../db/SettingsRepository';
 
 class LoadingScreen extends React.Component<NavigationInjectedProps> {
 

@@ -2,10 +2,12 @@ import React from 'react';
 import { View, Text, Button, Alert, Slider } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
-import { fetchSettings, updateSettings, resetSettings } from '../db/SettingsRepository';
-import { resetSmokeLog } from '../db/SmokeLogRepository';
-import Values from '../constants/Values';
-import Colors from '../constants/Colors';
+import { fetchSettings, updateSettings, resetSettings } from '../../db/SettingsRepository';
+import { resetSmokeLog } from '../../db/SmokeLogRepository';
+import { Colors } from '../../Styles';
+import Values from '../../constants/Values';
+
+import { styles } from './Styles';
 
 interface ISettingsScreenState {
   durationBetweenSmokes?: number;
@@ -34,10 +36,6 @@ class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsS
   async componentDidMount() {
     await this._fetchData();
   }
-
-  // async componentDidUpdate() {
-  //   await this._fetchData();
-  // }
 
   async _fetchData() {
     const settings = await fetchSettings();
@@ -91,9 +89,11 @@ class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsS
 
   render() {
     return (
-      <View style={{padding:10}}>
-        <View>
-          <Text>Duration Between Smokes (minutes): {this.state.displayDurationBetweenSmokes}</Text>
+      <View style={styles.container}>
+        <View style={styles.durationSliderContainer}>
+          <Text style={styles.durationSliderText}>
+            Duration Between Smokes (minutes): {this.state.displayDurationBetweenSmokes}
+          </Text>
           {/* TODO -> Step decrease button */}
           <Slider
             minimumValue={Values.minimumDurationBetweenSmokes}
@@ -108,8 +108,10 @@ class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsS
           {/* TODO -> Step increase button */}
         </View>
 
-        <View>
-          <Text>Duration Increase Between Smokes (minutes): {this.state.displayDurationIncrease}</Text>
+        <View style={styles.increaseSliderContainer}>
+          <Text style={styles.increaseSliderText}>
+            Duration Increase Between Smokes (minutes): {this.state.displayDurationIncrease}
+          </Text>
           {/* TODO -> Step decrease button */}
           <Slider
             minimumValue={Values.minimumDurationIncrease}
@@ -130,6 +132,7 @@ class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsS
         </Button>
 
         <Button
+          color={'red'}
           onPress={this._onResetPressed}
           title="Reset">
         </Button>
