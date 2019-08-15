@@ -27,10 +27,15 @@ export default class ToggleButton extends React.Component<IToggleButtonProps, an
       flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'center',
     };
 
-    let textComponent, boundingStyle;
+    const boundingStyle = {
+      height: this.props.iconSize,
+      width: this.props.iconSize
+    };
 
+    let textComponent;
     if (this.props.text) {
       textComponent = (
         <View>
@@ -39,25 +44,15 @@ export default class ToggleButton extends React.Component<IToggleButtonProps, an
       );
     }
 
-    if (this.props.boundingStyle) {
-      boundingStyle = this.props.boundingStyle;
-    } else {
-      boundingStyle = {
-        width: '100%',
-        height: '100%',
-        margin: 5
-      };
-    }
-
     return (
       <TouchableNativeFeedback
         onPress={this._onPress}
         background={TouchableNativeFeedback.SelectableBackground()}
       >
-        <View style={boundingStyle}>
+        <View style={[boundingStyle,this.props.boundingStyle]}>
           <View style={flexStyle}>
             {textComponent}
-            <View>
+            <View style={{width:'100%', height:'100%',alignItems:'center',justifyContent:'center'}}>
               <Ionicons
                 name={
                   this.props.toggled && this.props.toggledIconName
