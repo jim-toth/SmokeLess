@@ -5,7 +5,7 @@ import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 
 import { SmokeLogEntry } from '../../common/SmokeLogEntry';
-import CountdownTimerButton from '../../components/CountdownTimerButton';
+import CountdownTimerButton from '../../components/atoms/CountdownTimerButton';
 import {
   createSmokeLogEntry,
   fetchLastSmokeDateTime,
@@ -51,6 +51,9 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
         this.setState({ drawerOpen: true });
       }
     });
+    this.props.navigation.addListener('willFocus', async () => {
+      await this._refreshSettings();
+    });
     await this._fetchData();
   }
 
@@ -71,6 +74,10 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
       durationIncrease,
       smokeLogEntries
     });
+  }
+
+  async _refreshSettings() {
+    this.setState(await fetchSettings());
   }
 
   onPressLogSmoke = async (isExpired: boolean) => {

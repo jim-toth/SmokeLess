@@ -2,7 +2,8 @@ import React from 'react';
 import { Text, View, Slider } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
-import CustomButton from '../../components/CustomButton';
+import CustomButton from '../../components/atoms/CustomButton';
+import ButtonSlider from '../../components/molecules/ButtonSlider';
 import { updateWelcomeCompleted, updateSettings } from '../../db/SettingsRepository';
 import Values from '../../constants/Values';
 import { Colors } from '../../Styles';
@@ -11,16 +12,12 @@ import { styles as welcomeStyles } from './Styles';
 
 interface IWelcomeScreenState {
   durationBetweenSmokes?: number;
-  displayDurationBetweenSmokes?: number;
   durationIncrease?: number;
-  displayDurationIncrease?: number;
 }
 
 const defaultState:IWelcomeScreenState = {
   durationBetweenSmokes: Values.defaultDurationBetweenSmokes,
-  displayDurationBetweenSmokes: Values.defaultDurationBetweenSmokes,
-  durationIncrease: Values.defaultDurationIncrease,
-  displayDurationIncrease: Values.defaultDurationIncrease
+  durationIncrease: Values.defaultDurationIncrease
 }
 
 class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScreenState> {
@@ -42,16 +39,8 @@ class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScre
     this.setState({ durationBetweenSmokes });
   }
 
-  _updateDisplayDurationBetweenSmokes = (displayDurationBetweenSmokes:number) => {
-    this.setState({ displayDurationBetweenSmokes });
-  }
-
   _setDurationIncrease = (durationIncrease:number) => {
     this.setState({ durationIncrease });
-  }
-
-  _updateDisplayDurationIncrease = (displayDurationIncrease:number) => {
-    this.setState({ displayDurationIncrease });
   }
 
   render() {
@@ -64,37 +53,34 @@ class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScre
           To get started, enter how often you smoke
           and the duration increase between smokes you'd like to track.
         </Text>
-        <View style={styles.durationSliderContainer}>
-          <Text style={styles.durationSliderText}>Duration Between Smokes (minutes): {this.state.displayDurationBetweenSmokes}</Text>
-          {/* TODO -> Step decrease button */}
-          <Slider
-            minimumValue={Values.minimumDurationBetweenSmokes}
-            maximumValue={Values.maximumDurationBetweenSmokes}
-            minimumTrackTintColor={Colors.minimumSliderTintColor}
-            maximumTrackTintColor={Colors.maximumSliderTintColor}
-            onValueChange={this._updateDisplayDurationBetweenSmokes}
-            onSlidingComplete={this._setDurationBetweenSmokes}
-            step={1}
-            value={this.state.displayDurationBetweenSmokes}
-          />
-          {/* TODO -> Step increase button */}
-        </View>
+        
+        <ButtonSlider
+          minimumValue={Values.minimumDurationBetweenSmokes}
+          maximumValue={Values.maximumDurationBetweenSmokes}
+          value={this.state.durationBetweenSmokes}
+          onValueSelected={this._setDurationBetweenSmokes}
+          step={1}
+          text={'Duration Between Smokes (minutes):'}
+          containerStyle={styles.durationSliderContainer}
+          textStyle={styles.durationSliderText}
+          minimumTrackTintColor={Colors.minimumSliderTintColor}
+          maximumTrackTintColor={Colors.maximumSliderTintColor}
+          buttonColor={Colors.fontColor}
+        />
 
-        <View style={styles.increaseSliderContainer}>
-          <Text style={styles.increaseSliderText}>Increase Between Smokes (minutes): {this.state.displayDurationIncrease}</Text>
-          {/* TODO -> Step decrease button */}
-          <Slider
-            minimumValue={Values.minimumDurationIncrease}
-            maximumValue={Values.maximumDurationIncrease}
-            minimumTrackTintColor={Colors.minimumSliderTintColor}
-            maximumTrackTintColor={Colors.maximumSliderTintColor}
-            onValueChange={this._updateDisplayDurationIncrease}
-            onSlidingComplete={this._setDurationIncrease}
-            step={1}
-            value={this.state.displayDurationIncrease}
-          />
-          {/* TODO -> Step increase button */}
-        </View>
+        <ButtonSlider
+          minimumValue={Values.minimumDurationIncrease}
+          maximumValue={Values.maximumDurationIncrease}
+          value={this.state.durationIncrease}
+          onValueSelected={this._setDurationIncrease}
+          step={1}
+          text={'Increase Between Smokes (minutes):'}
+          containerStyle={styles.increaseSliderContainer}
+          textStyle={styles.increaseSliderText}
+          minimumTrackTintColor={Colors.minimumSliderTintColor}
+          maximumTrackTintColor={Colors.maximumSliderTintColor}
+          buttonColor={Colors.fontColor}
+        />
 
         <CustomButton
           onPress={this.onFinishedPressed}

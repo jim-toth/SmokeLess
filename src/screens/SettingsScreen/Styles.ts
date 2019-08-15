@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 
   /* Duration Slider */
   durationSliderContainer: {
-    width: '80%'
+    width: '85%'
   },
   durationSliderText: {
     color: Colors.fontColor,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 
   /* Increase Slider */
   increaseSliderContainer: {
-    width: '80%'
+    width: '85%'
   },
   increaseSliderText: {
     color: Colors.fontColor,

@@ -34,8 +34,10 @@ export const NavStyle = StyleSheet.create({
     fontWeight: '200'
   },
   settingsIcon: {
-    margin: 5,
-    marginLeft: 15,
+    
     color: Colors.fontColor
   },
+  settingsIconBounding: {
+    marginRight: 15
+  }
 });
