@@ -26,6 +26,7 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "package": "com.jimtoth.smokeless"
     },
     "hooks": {
