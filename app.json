@@ -27,7 +27,8 @@
     },
     "android": {
       "versionCode": 1,
-      "package": "com.jimtoth.smokeless"
+      "package": "com.jimtoth.smokeless",
+      "permissions": []
     },
     "hooks": {
       "postPublish": [
