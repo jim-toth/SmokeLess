@@ -10,7 +10,8 @@ export const Colors = {
 }
 
 export const Fonts = {
-  appFont: 'roboto'
+  appFont: 'saira',
+  boldAppFont: 'saira-bold'
 }
 
 export const AppStyle = StyleSheet.create({
@@ -23,11 +24,14 @@ export const AppStyle = StyleSheet.create({
 
 export const NavStyle = StyleSheet.create({
   header: {
-    backgroundColor: Colors.backgroundColor1
+    backgroundColor: Colors.backgroundColor1,
+    fontFamily: Fonts.appFont
   },
   headerTitle: {
     color: Colors.fontColor,
-    fontFamily: Fonts.appFont
+    fontFamily: Fonts.appFont,
+    // NB: fontWeight 200 is important or it will fall back on default font
+    fontWeight: '200'
   },
   settingsIcon: {
     margin: 5,

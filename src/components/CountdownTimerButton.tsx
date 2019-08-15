@@ -26,6 +26,7 @@ const defaultStyle:any = {
     margin: 5,
     width: '100%',
     textAlign: 'center',
+    fontFamily: 'saira'
   }
 }
 

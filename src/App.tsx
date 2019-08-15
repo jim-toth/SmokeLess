@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { AppLoading, Font } from 'expo';
+import { Ionicons } from '@expo/vector-icons'
 
 import createAppContainer from './navigation/AppContainer';
 import { fetchWelcomeCompleted } from './db/SettingsRepository';
@@ -44,12 +45,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   _loadResourcesAsync = async () : Promise<void> => {
     return Promise.all([
+      Ionicons.loadFont(),
       Font.loadAsync({
-        // This is the font that we are using for our tab bar
-        // ...Ionicons.font,
-        'roboto': require('../assets/fonts/Roboto-Regular.ttf')
+        'saira': require('../assets/fonts/Saira-Regular.ttf'),
+        'saira-bold': require('../assets/fonts/Saira-Bold.ttf'),
       }),
-    ]).then((res) => undefined);
+    ]).then(() => undefined);
   };
 
   _handleLoadingError = (error:any) => {

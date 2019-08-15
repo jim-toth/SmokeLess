@@ -32,9 +32,8 @@ const styles = StyleSheet.create({
 const buttons = StyleSheet.create({
   // Save
   saveText: {
-    fontWeight: 'bold',
     color: 'green',
-    fontFamily: Fonts.appFont
+    fontFamily: Fonts.boldAppFont
   },
   saveFlex: {
     padding: 5,
@@ -49,9 +48,8 @@ const buttons = StyleSheet.create({
 
   // Reset
   resetText: {
-    fontWeight: 'bold',
     color: 'red',
-    fontFamily: Fonts.appFont
+    fontFamily: Fonts.boldAppFont
   },
   resetFlex: {
     padding: 5,

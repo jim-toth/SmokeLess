@@ -12,7 +12,7 @@ const formatPrettyDate = (theDate:Date|null, options?:formatPrettyDateOptions) =
   if (!theDate) return 'never';
   const d = new Date(theDate);
   const hours = d.getHours();
-  const ampm = hours > 12 ? 'PM' : 'AM';
+  const ampm = hours >= 12 ? 'PM' : 'AM';
   const h = hours > 12 ? hours - 12 : hours;
   const minutes = d.getMinutes();
   const m = minutes < 10 ? `0${minutes}` : minutes;
