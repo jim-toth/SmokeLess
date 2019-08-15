@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { AppLoading, Font } from 'expo';
+import { Ionicons } from '@expo/vector-icons'
 
 import createAppContainer from './navigation/AppContainer';
 import { fetchWelcomeCompleted } from './db/SettingsRepository';
+
+import { AppStyle } from './Styles';
 
 interface IAppProps {
   skipLoadingScreen?: boolean;
@@ -21,7 +24,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   };
 
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    if (!this.state.isLoadingComplete) {
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}
@@ -32,7 +35,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     } else {
       const AppContainer = createAppContainer(this.state.isWelcomeComplete);
       return (
-        <View style={styles.container}>
+        <View style={AppStyle.container}>
           {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
           <AppContainer />
         </View>
@@ -40,20 +43,14 @@ export default class App extends React.Component<IAppProps, IAppState> {
     }
   }
 
-  _loadResourcesAsync = async () => {
-    Promise.all([
-      fetchWelcomeCompleted(),
+  _loadResourcesAsync = async () : Promise<void> => {
+    return Promise.all([
+      Ionicons.loadFont(),
       Font.loadAsync({
-        // This is the font that we are using for our tab bar
-        // ...Ionicons.font,
-        // We include SpaceMono because we use it in HomeScreen.js. Feel free
-        // to remove this if you are not using it in your app
-        // 'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
-      })
-    ]).then((res) => {
-      this.setState({ isWelcomeComplete: res[0] })
-      return null;
-    });
+        'saira': require('../assets/fonts/Saira-Regular.ttf'),
+        'saira-bold': require('../assets/fonts/Saira-Bold.ttf'),
+      }),
+    ]).then(() => undefined);
   };
 
   _handleLoadingError = (error:any) => {
@@ -62,14 +59,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
     console.warn(error);
   };
 
-  _handleFinishLoading = () => {
-    this.setState({ isLoadingComplete: true });
+  _handleFinishLoading = async () => {
+    const isWelcomeComplete = await fetchWelcomeCompleted();
+    this.setState({ isLoadingComplete: true, isWelcomeComplete });
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});

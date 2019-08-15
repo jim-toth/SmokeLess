@@ -6,7 +6,6 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 
 import { SmokeLogEntry } from '../../common/SmokeLogEntry';
 import CountdownTimerButton from '../../components/CountdownTimerButton';
-import ToggleButton from '../../components/ToggleButton';
 import {
   createSmokeLogEntry,
   fetchLastSmokeDateTime,
@@ -39,22 +38,6 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     super(props);
     this.state = defaultState
   }
-  
-  static navigationOptions = (props:NavigationInjectedProps) => { return {
-    title: 'SmokeLess',
-    headerRight: (
-      <ToggleButton
-        iconName={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
-        iconStyle={styles.settingsIcon}
-        iconSize={26}
-        iconColor={'black'}
-        toggled={false}
-        onPress={() => {
-          props.navigation.navigate('Settings');
-        }}
-      />
-    )
-  } };
 
   _panel:any = null;
   draggableRange:any = { top: height - 80, bottom: 64 };
@@ -149,7 +132,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
           {dragHandler => (
             <View style={styles.bottomContainer}>
               <View style={styles.bottomContainerTitleHandle} {...dragHandler}>
-                <Text>{nextSmokeString}</Text>
+                <Text style={styles.bottomContainerTitleText}>{nextSmokeString}</Text>
                 <View style={this.state.drawerOpen ? {display: 'none'} : {display: 'flex'}}>
                   <Ionicons
                     name={Platform.OS === 'ios' ? `ios-arrow-dropdown` : `md-arrow-dropdown`}
