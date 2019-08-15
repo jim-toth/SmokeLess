@@ -1,5 +1,6 @@
 import React from 'react';
 import { Platform, ScrollView, Text, FlatList, View, Dimensions, Animated } from 'react-native';
+import { AdMobInterstitial } from 'expo';
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
@@ -13,8 +14,11 @@ import {
 } from '../../db/SmokeLogRepository';
 import { fetchSettings, updateSettings } from '../../db/SettingsRepository';
 import { formatPrettyDate } from '../../util/helpers';
+import getEnvVars from '../../../env';
 
 import { styles } from './Styles';
+
+const env = getEnvVars();
 
 const { height } = Dimensions.get('window');
 
@@ -54,6 +58,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     this.props.navigation.addListener('willFocus', async () => {
       await this._refreshSettings();
     });
+    this._setUpAdMob();
     await this._fetchData();
   }
 
@@ -96,11 +101,27 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     await updateSettings({ durationBetweenSmokes: newDurationBetweenSmokes });
     const smokeLogEntries = await fetchSmokeLogEntries();
 
+    await this._showAfterSmokeAd();
+
     this.setState({
       lastSmokeDateTime: smokeTimestamp,
       durationBetweenSmokes: newDurationBetweenSmokes,
       smokeLogEntries
     });
+  }
+
+  _setUpAdMob = () => {
+    if (env.dev) {
+      AdMobInterstitial.setTestDeviceID('EMULATOR');
+    }
+    AdMobInterstitial.setAdUnitID(env.adMob.afterSmokeAdId);
+  }
+
+  _showAfterSmokeAd = async () => {
+    if (env.enableAds) {
+      await AdMobInterstitial.requestAdAsync();
+      await AdMobInterstitial.showAdAsync();
+    }
   }
 
   private calculateNextSmokeDateTime() {
