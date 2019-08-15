@@ -10,12 +10,16 @@ const defaultStyle:any = {
   button: {
     width: '80%',
     backgroundColor: 'red',
-    borderWidth: 1,
-    borderColor: 'black'
+    borderWidth: 2,
+    borderColor: 'red',
+    borderRadius: 4
   },
   buttonExpired: {
     width: '80%',
-    backgroundColor: 'green'
+    backgroundColor: 'green',
+    borderWidth: 2,
+    borderColor: 'green',
+    borderRadius: 4
   },
   text: {
     color: 'white',

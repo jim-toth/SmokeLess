@@ -2,12 +2,13 @@ import React from 'react';
 import { View, Text, Button, Alert, Slider } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
+import CustomButton from '../../components/CustomButton';
 import { fetchSettings, updateSettings, resetSettings } from '../../db/SettingsRepository';
 import { resetSmokeLog } from '../../db/SmokeLogRepository';
 import { Colors } from '../../Styles';
 import Values from '../../constants/Values';
 
-import { styles } from './Styles';
+import { styles, buttons } from './Styles';
 
 interface ISettingsScreenState {
   durationBetweenSmokes?: number;
@@ -106,7 +107,7 @@ class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsS
 
         <View style={styles.increaseSliderContainer}>
           <Text style={styles.increaseSliderText}>
-            Duration Increase Between Smokes (minutes): {this.state.displayDurationIncrease}
+            Increase Between Smokes (minutes): {this.state.displayDurationIncrease}
           </Text>
           {/* TODO -> Step decrease button */}
           <Slider
@@ -122,16 +123,23 @@ class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsS
           {/* TODO -> Step increase button */}
         </View>
 
-        <Button
+        <CustomButton
           onPress={this._onSavePressed}
-          title="Save">
-        </Button>
+          text="Save"
+          textStyle={buttons.saveText}
+          flexStyle={buttons.saveFlex}
+          boundingStyle={buttons.saveBounding}
+          rippleColor={buttons.saveText.color}
+        />
 
-        <Button
-          color={'red'}
+        <CustomButton
           onPress={this._onResetPressed}
-          title="Reset">
-        </Button>
+          text="Reset"
+          textStyle={buttons.resetText}
+          flexStyle={buttons.resetFlex}
+          boundingStyle={buttons.resetBounding}
+          rippleColor={buttons.resetText.color}
+        />
       </View>
     );
   }

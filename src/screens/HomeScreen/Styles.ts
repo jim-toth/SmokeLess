@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     width: '100%',
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: Colors.backgroundColor2,
     shadowOffset: { width: 5, height: 5 }
   },
   bottomContainerTitleHandle: {
@@ -34,11 +34,12 @@ const styles = StyleSheet.create({
     height: 96,
     alignItems: 'center',
     justifyContent: 'center',
-    top: -20,
+    top: -24,
     paddingTop: 20,
     paddingBottom: 20,
     marginBottom: -20,
-    backgroundColor: Colors.backgroundColor
+    marginTop: 20,
+    backgroundColor: 'transparent'
   },
   bottomContainerTitleText: {
     color: Colors.fontColor
