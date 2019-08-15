@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors } from '../../Styles';
+import { Colors, Fonts } from '../../Styles';
 
 const styles = StyleSheet.create({
   // BODY
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   topContainerText: {
     padding: 5,
     color: Colors.fontColor,
+    fontFamily: Fonts.appFont
   },
 
   // BOTTOM VIEW
@@ -42,7 +43,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   bottomContainerTitleText: {
-    color: Colors.fontColor
+    color: Colors.fontColor,
+    fontFamily: Fonts.appFont
   },
   dragIcon: {
     margin: 5,
@@ -62,7 +64,8 @@ const styles = StyleSheet.create({
   logText: {
     fontSize: 16,
     textAlignVertical: 'center',
-    color: Colors.fontColor
+    color: Colors.fontColor,
+    fontFamily: Fonts.appFont
   }
 });
 

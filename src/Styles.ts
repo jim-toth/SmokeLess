@@ -9,6 +9,10 @@ export const Colors = {
   maximumSliderTintColor: '#00FFFF', // blue
 }
 
+export const Fonts = {
+  appFont: 'roboto'
+}
+
 export const AppStyle = StyleSheet.create({
   container: {
     flex: 1,
@@ -22,7 +26,8 @@ export const NavStyle = StyleSheet.create({
     backgroundColor: Colors.backgroundColor1
   },
   headerTitle: {
-    color: Colors.fontColor
+    color: Colors.fontColor,
+    fontFamily: Fonts.appFont
   },
   settingsIcon: {
     margin: 5,

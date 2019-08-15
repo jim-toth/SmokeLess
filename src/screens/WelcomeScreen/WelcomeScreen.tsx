@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button, Slider } from 'react-native';
+import { Text, View, Slider } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
 import CustomButton from '../../components/CustomButton';

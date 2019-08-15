@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '../../Styles';
+import { Colors, Fonts } from '../../Styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
     width: '80%'
   },
   durationSliderText: {
-    color: Colors.fontColor
+    color: Colors.fontColor,
+    fontFamily: Fonts.appFont
   },
 
   /* Increase Slider */
@@ -23,7 +24,8 @@ const styles = StyleSheet.create({
     width: '80%'
   },
   increaseSliderText: {
-    color: Colors.fontColor
+    color: Colors.fontColor,
+    fontFamily: Fonts.appFont
   },
 });
 
@@ -31,7 +33,8 @@ const buttons = StyleSheet.create({
   // Save
   saveText: {
     fontWeight: 'bold',
-    color: 'green'
+    color: 'green',
+    fontFamily: Fonts.appFont
   },
   saveFlex: {
     padding: 5,
@@ -47,7 +50,8 @@ const buttons = StyleSheet.create({
   // Reset
   resetText: {
     fontWeight: 'bold',
-    color: 'red'
+    color: 'red',
+    fontFamily: Fonts.appFont
   },
   resetFlex: {
     padding: 5,

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors } from '../../Styles';
+import { Colors, Fonts } from '../../Styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,10 +13,12 @@ const styles = StyleSheet.create({
   bodyTitleText: {
     marginTop: 50,
     fontSize: 24,
-    color: Colors.fontColor
+    color: Colors.fontColor,
+    fontFamily: Fonts.appFont
   },
   bodyText: {
-    color: Colors.fontColor
+    color: Colors.fontColor,
+    fontFamily: Fonts.appFont
   },
 });
 
