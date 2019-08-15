@@ -27,6 +27,18 @@
     },
     "android": {
       "package": "com.jimtoth.smokeless"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "kelmoria",
+            "project": "smokeless",
+            "authToken": "07f3b9fe498a46b190b615d0e13f90fb2e2e82c6004f4aa4aa20279550357e4f"
+          }
+        }
+      ]
     }
   }
 }
