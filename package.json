@@ -15,7 +15,8 @@
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-navigation": "^3.0.9",
-    "rn-sliding-up-panel": "^2.3.1"
+    "rn-sliding-up-panel": "^2.3.1",
+    "sentry-expo": "^1.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
