@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, ScrollView, Text, FlatList, View, Dimensions, Animated } from 'react-native';
-import { AdMobInterstitial } from 'expo';
+import { AdMobInterstitial } from 'expo-ads-admob';
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
@@ -56,7 +56,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
       }
     });
     this.props.navigation.addListener('willFocus', async () => {
-      await this._refreshSettings();
+      await this._fetchData();
     });
     this._setUpAdMob();
     await this._fetchData();
@@ -111,10 +111,12 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
   }
 
   _setUpAdMob = () => {
-    if (env.dev) {
-      AdMobInterstitial.setTestDeviceID('EMULATOR');
+    if (env.enableAds) {
+      if (env.dev) {
+        AdMobInterstitial.setTestDeviceID('EMULATOR');
+      }
+      AdMobInterstitial.setAdUnitID(env.adMob.afterSmokeAdId);
     }
-    AdMobInterstitial.setAdUnitID(env.adMob.afterSmokeAdId);
   }
 
   _showAfterSmokeAd = async () => {

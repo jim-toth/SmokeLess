@@ -24,12 +24,12 @@ const ENV = {
   }
  };
 
- const getEnvVars = (env = Constants.manifest.releaseChannel) => {
-  if (__DEV__) {
+ const getEnvVars = () => {
+  if (__DEV__ || !Constants.manifest) {
     return ENV.dev;
-  } else if (env === 'staging') {
+  } else if (Constants.manifest && Constants.manifest.releaseChannel === 'staging') {
     return ENV.staging;
-  } else if (env === 'prod') {
+  } else if (Constants.manifest && Constants.manifest.releaseChannel === 'prod') {
     return ENV.prod;
   } else {
     return ENV.dev;

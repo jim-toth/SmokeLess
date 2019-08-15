@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
 import CustomButton from '../../components/atoms/CustomButton';
