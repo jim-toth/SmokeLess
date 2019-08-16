@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import Constants from 'expo-constants';
 
 const ENV = {
   dev: {
@@ -25,7 +25,7 @@ const ENV = {
  };
 
  const getEnvVars = () => {
-  if (__DEV__ || !Constants.manifest) {
+  if (__DEV__ || !Constants || !Constants.manifest) {
     return ENV.dev;
   } else if (Constants.manifest && Constants.manifest.releaseChannel === 'staging') {
     return ENV.staging;
