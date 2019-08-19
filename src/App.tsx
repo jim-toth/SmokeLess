@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 // import { AppLoading } from 'expo'; // TODO -> Replace AppLoading
-import * as Font from 'expo-font'; // TODO -> replacE?
-import { Ionicons } from '@expo/vector-icons'
 
 import createAppContainer from './navigation/AppContainer';
 import { fetchWelcomeCompleted } from './db/SettingsRepository';
@@ -49,11 +47,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   _loadResourcesAsync = async () : Promise<void> => {
     return Promise.all([
-      Ionicons.loadFont(),
-      Font.loadAsync({
-        'saira': require('../assets/fonts/Saira-Regular.ttf'),
-        'saira-bold': require('../assets/fonts/Saira-Bold.ttf'),
-      }),
+      // Ionicons.loadFont(),
+      // Font.loadAsync({
+      //   'saira': require('../assets/fonts/Saira-Regular.ttf'),
+      //   'saira-bold': require('../assets/fonts/Saira-Bold.ttf'),
+      // }),
     ]).then(() => undefined);
   };
 
