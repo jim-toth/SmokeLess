@@ -1,5 +1,6 @@
 import React from 'react';
-import { Platform, View, Text, Slider } from 'react-native';
+import { Platform, View, Text } from 'react-native';
+import Slider from '@react-native-community/slider';
 
 import ToggleButton from '../atoms/ToggleButton';
 
@@ -25,6 +26,7 @@ interface IButtonSliderProps {
 
 interface IButtonSliderState {
   displayValue: number;
+  moving?: boolean;
 }
 
 export default class ButtonSlider extends React.Component<IButtonSliderProps,IButtonSliderState> {
@@ -38,21 +40,30 @@ export default class ButtonSlider extends React.Component<IButtonSliderProps,IBu
 
   constructor(props:IButtonSliderProps) {
     super(props);
-    this.state = { displayValue: this.props.value || 0 }
+    this.state = {
+      displayValue: this.props.value || 0
+    }
   }
 
-  componentWillReceiveProps(props:IButtonSliderProps) {
-    this.setState({ displayValue: props.value || 0})
+  static getDerivedStateFromProps(props:IButtonSliderProps, state:IButtonSliderState) {
+    if (!state.moving && props.value !== state.displayValue) {
+      return {
+        displayValue: props.value
+      }
+    }
+
+    return null;
   }
 
   _updateDisplay = (displayValue:number) => {
-    this.setState({ displayValue });
+    this.setState({ displayValue, moving: true });
   }
 
   _setValue = (sliderValue:number) => {
     if (this.props.onValueSelected) {
       this.props.onValueSelected(sliderValue);
     }
+    this.setState({ moving: false });
   }
 
   _removeStep = () => {
@@ -102,7 +113,7 @@ export default class ButtonSlider extends React.Component<IButtonSliderProps,IBu
               onValueChange={this._updateDisplay}
               onSlidingComplete={this._setValue}
               step={this.props.step}
-              value={this.props.value}
+              value={this.state.displayValue}
             />
           </View>
           <ToggleButton
