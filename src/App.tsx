@@ -7,16 +7,12 @@ import SplashLoader from './components/atoms/SplashLoader';
 
 import { AppStyle } from './Styles';
 
-interface IAppProps {
-  skipLoadingScreen?: boolean;
-}
-
 interface IAppState {
   isLoadingComplete: boolean;
   isWelcomeComplete: boolean;
 }
 
-export default class App extends React.Component<IAppProps, IAppState> {
+export default class App extends React.Component<IAppState> {
   state = {
     isLoadingComplete: false,
     isWelcomeComplete: false
