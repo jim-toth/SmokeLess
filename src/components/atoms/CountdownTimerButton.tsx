@@ -40,7 +40,8 @@ interface ICountdownTimerButtonProps {
 interface ICountdownTimerButtonState {
   millisecondsRemaining: number,
   timeoutId: any,
-  previousMilliseconds?: number
+  previousMilliseconds?: number,
+  prevUntil?: Date;
 }
 
 export default class CountdownTimerButton extends React.Component<ICountdownTimerButtonProps, ICountdownTimerButtonState> {
@@ -62,27 +63,32 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
     textStyle: defaultStyle.text
   }
 
-  public componentDidMount(): void {
+  static getDerivedStateFromProps(props:ICountdownTimerButtonProps, state:ICountdownTimerButtonState) {
+    if (props.until !== state.prevUntil) {
+      if (state.timeoutId !== undefined) {
+        clearTimeout(state.timeoutId);
+      }
+      return {
+        previousMilliseconds: undefined,
+        millisecondsRemaining: props.until ? props.until.getTime() - Date.now() : -1,
+        prevUntil: props.until
+      };
+    }
+
+    return null;
+  }
+
+  componentDidMount(): void {
     this.tick();
   }
 
-  public componentWillReceiveProps(newProps:ICountdownTimerButtonProps): void {
-    if (this.state.timeoutId !== undefined) {
-      clearTimeout(this.state.timeoutId);
-    }
-    this.setState({
-      previousMilliseconds: undefined,
-      millisecondsRemaining: newProps.until ? newProps.until.getTime() - Date.now() : -1
-    });
-  }
-
-  public componentDidUpdate(): void {
+  componentDidUpdate(): void {
     if (!this.state.previousMilliseconds && this.state.millisecondsRemaining > 0) {
       this.tick();
     }
   }
 
-  public componentWillUnmount(): void {
+  componentWillUnmount(): void {
     clearTimeout(this.state.timeoutId);
   }
 
@@ -90,7 +96,7 @@ export default class CountdownTimerButton extends React.Component<ICountdownTime
     return this.state.millisecondsRemaining <= 0;
   }
 
-  _onPress = () => {
+  private _onPress = () => {
     if (this.props.onPress) {
       this.props.onPress(this.isExpired());
     }
