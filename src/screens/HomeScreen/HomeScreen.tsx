@@ -5,6 +5,7 @@ import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import Icon from 'react-native-ionicons';
 import SplashScreen from 'react-native-splash-screen';
+import { AdMobInterstitial } from 'react-native-admob';
 
 import { SmokeLogEntry } from '../../common/SmokeLogEntry';
 import CountdownTimerButton from '../../components/atoms/CountdownTimerButton';
@@ -114,17 +115,19 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
 
   _setUpAdMob = () => {
     if (env.enableAds) {
+      // TODO -> Sentry error logging for Ads
       if (env.dev) {
-        // AdMobInterstitial.setTestDeviceID('EMULATOR'); // TODO -> fix admob
+        AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
       }
-      // AdMobInterstitial.setAdUnitID(env.adMob.afterSmokeAdId); // TODO -> fix admob
+      AdMobInterstitial.setAdUnitID(env.adMob.afterSmokeAdId);
     }
   }
 
   _showAfterSmokeAd = async () => {
     if (env.enableAds) {
-      // await AdMobInterstitial.requestAdAsync(); // TODO -> fix admob
-      // await AdMobInterstitial.showAdAsync(); // TODO -> fix admob
+      // TODO -> Sentry error logging for Ads
+      await AdMobInterstitial.requestAd();
+      await AdMobInterstitial.showAd();
     }
   }
 
