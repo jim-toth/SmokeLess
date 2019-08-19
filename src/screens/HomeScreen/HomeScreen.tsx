@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, ScrollView, Text, FlatList, View, Dimensions, Animated } from 'react-native';
-import { AdMobInterstitial } from 'expo-ads-admob';
+// import { AdMobInterstitial } from 'expo-ads-admob'; // TODO -> fix admob dependency
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
@@ -113,16 +113,16 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
   _setUpAdMob = () => {
     if (env.enableAds) {
       if (env.dev) {
-        AdMobInterstitial.setTestDeviceID('EMULATOR');
+        // AdMobInterstitial.setTestDeviceID('EMULATOR'); // TODO -> fix admob
       }
-      AdMobInterstitial.setAdUnitID(env.adMob.afterSmokeAdId);
+      // AdMobInterstitial.setAdUnitID(env.adMob.afterSmokeAdId); // TODO -> fix admob
     }
   }
 
   _showAfterSmokeAd = async () => {
     if (env.enableAds) {
-      await AdMobInterstitial.requestAdAsync();
-      await AdMobInterstitial.showAdAsync();
+      // await AdMobInterstitial.requestAdAsync(); // TODO -> fix admob
+      // await AdMobInterstitial.showAdAsync(); // TODO -> fix admob
     }
   }
 

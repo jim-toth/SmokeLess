@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { View } from 'react-native';
-import { AppLoading } from 'expo';
-import * as Font from 'expo-font';
+import { View, Text } from 'react-native';
+// import { AppLoading } from 'expo'; // TODO -> Replace AppLoading
+import * as Font from 'expo-font'; // TODO -> replacE?
 import { Ionicons } from '@expo/vector-icons'
 
 import createAppContainer from './navigation/AppContainer';
@@ -24,14 +24,17 @@ export default class App extends React.Component<IAppProps, IAppState> {
     isWelcomeComplete: false
   };
 
+  // TODO -> Start loading cycle
+
   render() {
     if (!this.state.isLoadingComplete) {
       return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
+        // <AppLoading
+        //   startAsync={this._loadResourcesAsync}
+        //   onError={this._handleLoadingError}
+        //   onFinish={this._handleFinishLoading}
+        // />
+        <View style={{margin:100}}><Text>LOADING</Text></View>
       );
     } else {
       const AppContainer = createAppContainer(this.state.isWelcomeComplete);
@@ -57,6 +60,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
   _handleLoadingError = (error:any) => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
+
+    // TODO -> report to sentry
     console.warn(error);
   };
 
