@@ -39,11 +39,8 @@ export default class SplashLoader extends React.Component<ISplashLoaderProps,any
 
   render() {
     return (
-      <View style={{margin:100}}>
-        <Text style={{fontFamily: 'Roboto'}}>LOADING</Text>
-        <Text style={{fontFamily: 'Saira-Regular'}}>LOADING</Text>
-        <Text style={{fontFamily: 'Saira-Bold'}}>LOADING</Text>
-        <Text style={{fontFamily: 'serif'}}>LOADING?</Text>
+      <View style={{margin:100, backgroundColor: 'black'}}>
+
       </View>
     );
   }
