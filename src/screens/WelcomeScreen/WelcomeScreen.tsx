@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
+import SplashScreen from 'react-native-splash-screen';
 
 import CustomButton from '../../components/atoms/CustomButton';
 import ButtonSlider from '../../components/molecules/ButtonSlider';
@@ -24,6 +25,10 @@ class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScre
   constructor(props:any) {
     super(props);
     this.state = defaultState;
+  }
+
+  componentDidMount() {
+    SplashScreen.hide();
   }
   
   onFinishedPressed = async () => {

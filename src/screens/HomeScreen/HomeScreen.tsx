@@ -4,6 +4,7 @@ import { Platform, ScrollView, Text, FlatList, View, Dimensions, Animated } from
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import Icon from 'react-native-ionicons';
+import SplashScreen from 'react-native-splash-screen';
 
 import { SmokeLogEntry } from '../../common/SmokeLogEntry';
 import CountdownTimerButton from '../../components/atoms/CountdownTimerButton';
@@ -60,6 +61,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     });
     this._setUpAdMob();
     await this._fetchData();
+    SplashScreen.hide();
   }
 
   componentWillUnmount() {
