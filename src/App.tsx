@@ -32,7 +32,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
         //   onError={this._handleLoadingError}
         //   onFinish={this._handleFinishLoading}
         // />
-        <View style={{margin:100}}><Text>LOADING</Text></View>
+        <View style={{margin:100}}>
+          <Text style={{fontFamily: 'Roboto'}}>LOADING</Text>
+          <Text style={{fontFamily: 'Saira-Regular'}}>LOADING</Text>
+          <Text style={{fontFamily: 'Saira-Bold'}}>LOADING</Text>
+          <Text style={{fontFamily: 'serif'}}>LOADING</Text>
+        </View>
       );
     } else {
       const AppContainer = createAppContainer(this.state.isWelcomeComplete);

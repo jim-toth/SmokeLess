@@ -10,8 +10,8 @@ export const Colors = {
 }
 
 export const Fonts = {
-  appFont: 'saira',
-  boldAppFont: 'saira-bold'
+  appFont: 'Saira-Regular',
+  boldAppFont: 'Saira-Bold'
 }
 
 export const AppStyle = StyleSheet.create({
