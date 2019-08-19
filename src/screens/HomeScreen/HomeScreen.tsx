@@ -3,6 +3,7 @@ import { Platform, ScrollView, Text, FlatList, View, Dimensions, Animated } from
 // import { AdMobInterstitial } from 'expo-ads-admob'; // TODO -> fix admob dependency
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
+import Icon from 'react-native-ionicons';
 
 import { SmokeLogEntry } from '../../common/SmokeLogEntry';
 import CountdownTimerButton from '../../components/atoms/CountdownTimerButton';
@@ -163,13 +164,11 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
               <View style={styles.bottomContainerTitleHandle} {...dragHandler}>
                 <Text style={styles.bottomContainerTitleText}>{nextSmokeString}</Text>
                 <View style={this.state.drawerOpen ? {display: 'none'} : {display: 'flex'}}>
-                  {/* TODO -> Replace expo ionicons */}
-                  <Text style={{ color:'white'}}>Icon</Text>
-                  {/* <Ionicons
-                    name={Platform.OS === 'ios' ? `ios-arrow-dropdown` : `md-arrow-dropdown`}
+                  <Icon
+                    name={'arrow-dropdown'}
                     size={26}
                     style={styles.dragIcon}
-                  /> */}
+                  />
                 </View>
               </View>
               <ScrollView style={styles.logContainer}>
@@ -180,13 +179,11 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
                     const iconColor = { color: item.cheated ? 'red' : 'green' };
                     return (
                       <View style={styles.logEntryWrapper}>
-                        {/* TODO -> Replace expo ionicons */}
-                        <Text style={{color:'white'}}>Icon</Text>
-                        {/* <Ionicons
-                          name={Platform.OS === 'ios' ? `ios-${cheatedIcon}` : `md-${cheatedIcon}`}
+                        <Icon
+                          name={cheatedIcon}
                           size={26}
                           style={[styles.logIcon, iconColor]}
-                        /> */}
+                        />
                         <Text style={styles.logText}>
                           {formatPrettyDate(item.timestamp)}
                         </Text>
