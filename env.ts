@@ -1,5 +1,4 @@
 // import { Constants } from "expo";
-
 // TODO -> fix this to not rely on expo library
 
 const ENV = {
