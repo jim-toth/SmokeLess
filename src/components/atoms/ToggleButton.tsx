@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableNativeFeedback } from 'react-native';
+import Icon from 'react-native-ionicons';
 
 interface IToggleButtonProps {
   iconStyle: any;
@@ -52,18 +53,15 @@ export default class ToggleButton extends React.Component<IToggleButtonProps, an
           <View style={flexStyle}>
             {textComponent}
             <View style={{width:'100%', height:'100%',alignItems:'center',justifyContent:'center'}}>
-              {/* TODO -> Replace expo ionicons */}
-              <Text style={{ color: 'white'}}>Icon</Text>
-              {/* <Ionicons
+              <Icon
                 name={
                   this.props.toggled && this.props.toggledIconName
                     ? this.props.toggledIconName
                     : this.props.iconName
                 }
                 size={this.props.iconSize}
-                style={this.props.iconStyle}
                 color={this.props.iconColor}
-              /> */}
+              />
             </View>
           </View>              
         </View>

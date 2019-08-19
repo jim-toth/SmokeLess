@@ -13,7 +13,7 @@ const navigationOptions = (props:NavigationInjectedProps) => { return {
   headerTitleStyle: NavStyle.headerTitle,
   headerRight: (
     <ToggleButton
-      iconName={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
+      iconName={'settings'}
       iconStyle={NavStyle.settingsIcon}
       boundingStyle={NavStyle.settingsIconBounding}
       iconSize={26}
