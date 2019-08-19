@@ -164,7 +164,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
                 <Text style={styles.bottomContainerTitleText}>{nextSmokeString}</Text>
                 <View style={this.state.drawerOpen ? {display: 'none'} : {display: 'flex'}}>
                   {/* TODO -> Replace expo ionicons */}
-                  <Text>Icon</Text>
+                  <Text style={{ color:'white'}}>Icon</Text>
                   {/* <Ionicons
                     name={Platform.OS === 'ios' ? `ios-arrow-dropdown` : `md-arrow-dropdown`}
                     size={26}
@@ -181,7 +181,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
                     return (
                       <View style={styles.logEntryWrapper}>
                         {/* TODO -> Replace expo ionicons */}
-                        <Text>Icon</Text>
+                        <Text style={{color:'white'}}>Icon</Text>
                         {/* <Ionicons
                           name={Platform.OS === 'ios' ? `ios-${cheatedIcon}` : `md-${cheatedIcon}`}
                           size={26}

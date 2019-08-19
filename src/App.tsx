@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-// import { AppLoading } from 'expo'; // TODO -> Replace AppLoading
 
 import createAppContainer from './navigation/AppContainer';
 import { fetchWelcomeCompleted } from './db/SettingsRepository';
+import SplashLoader from './components/atoms/SplashLoader';
 
 import { AppStyle } from './Styles';
 
@@ -22,22 +22,14 @@ export default class App extends React.Component<IAppProps, IAppState> {
     isWelcomeComplete: false
   };
 
-  // TODO -> Start loading cycle
-
   render() {
     if (!this.state.isLoadingComplete) {
       return (
-        // <AppLoading
-        //   startAsync={this._loadResourcesAsync}
-        //   onError={this._handleLoadingError}
-        //   onFinish={this._handleFinishLoading}
-        // />
-        <View style={{margin:100}}>
-          <Text style={{fontFamily: 'Roboto'}}>LOADING</Text>
-          <Text style={{fontFamily: 'Saira-Regular'}}>LOADING</Text>
-          <Text style={{fontFamily: 'Saira-Bold'}}>LOADING</Text>
-          <Text style={{fontFamily: 'serif'}}>LOADING</Text>
-        </View>
+        <SplashLoader
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+        />
       );
     } else {
       const AppContainer = createAppContainer(this.state.isWelcomeComplete);

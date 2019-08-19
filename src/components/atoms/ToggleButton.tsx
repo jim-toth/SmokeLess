@@ -53,7 +53,7 @@ export default class ToggleButton extends React.Component<IToggleButtonProps, an
             {textComponent}
             <View style={{width:'100%', height:'100%',alignItems:'center',justifyContent:'center'}}>
               {/* TODO -> Replace expo ionicons */}
-              <Text>Icon</Text>
+              <Text style={{ color: 'white'}}>Icon</Text>
               {/* <Ionicons
                 name={
                   this.props.toggled && this.props.toggledIconName
