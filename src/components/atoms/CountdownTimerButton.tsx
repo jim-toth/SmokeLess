@@ -1,7 +1,4 @@
-/// <reference path="node_modules/typescript/lib/lib.d.ts" /
-import * as React from 'react';
-// import ReactMixin from 'react-mixin';
-// import * as TimerMixin from 'react-timer-mixin';
+import React from 'react';
 import { View, Text, TouchableNativeFeedback } from 'react-native';
 
 // Some code modified from https://github.com/noelyoo/react-native-timer-countdown/blob/master/index.tsx
