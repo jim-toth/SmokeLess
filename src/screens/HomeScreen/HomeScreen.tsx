@@ -6,6 +6,7 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 import Icon from 'react-native-ionicons';
 import SplashScreen from 'react-native-splash-screen';
 import { AdMobInterstitial } from 'react-native-admob';
+import Config from 'react-native-config';
 
 import { SmokeLogEntry } from '../../common/SmokeLogEntry';
 import CountdownTimerButton from '../../components/atoms/CountdownTimerButton';
@@ -19,8 +20,6 @@ import { formatPrettyDate } from '../../util/helpers';
 import getEnvVars from '../../../env';
 
 import { styles } from './Styles';
-
-const env = getEnvVars();
 
 const { height } = Dimensions.get('window');
 
@@ -114,17 +113,17 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
   }
 
   _setUpAdMob = () => {
-    if (env.enableAds) {
+    if (Config.ENABLE_ADS) {
       // TODO -> Sentry error logging for Ads
-      if (env.dev) {
+      if (Config.USE_TEST_ADS) {
         AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
       }
-      AdMobInterstitial.setAdUnitID(env.adMob.afterSmokeAdId);
+      AdMobInterstitial.setAdUnitID(Config.ADMOB_AFTER_SMOKE_ID);
     }
   }
 
   _showAfterSmokeAd = async () => {
-    if (env.enableAds) {
+    if (Config.ENABLE_ADS) {
       // TODO -> Sentry error logging for Ads
       await AdMobInterstitial.requestAd();
       await AdMobInterstitial.showAd();
