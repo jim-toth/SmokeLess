@@ -1,4 +1,4 @@
-package com.smokeless;
+package com.kelmoria.smokeless;
 
 import android.app.Application;
 import android.util.Log;

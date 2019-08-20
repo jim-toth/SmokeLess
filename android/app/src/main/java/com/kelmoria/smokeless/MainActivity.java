@@ -1,4 +1,4 @@
-package com.smokeless;
+package com.kelmoria.smokeless;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
