@@ -17,7 +17,6 @@ import {
 } from '../../db/SmokeLogRepository';
 import { fetchSettings, updateSettings } from '../../db/SettingsRepository';
 import { formatPrettyDate } from '../../util/helpers';
-import getEnvVars from '../../../env';
 
 import { styles } from './Styles';
 
