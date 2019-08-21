@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform, ScrollView, Text, FlatList, View, Dimensions, Animated } from 'react-native';
-// import { AdMobInterstitial } from 'expo-ads-admob'; // TODO -> fix admob dependency
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import Icon from 'react-native-ionicons';
