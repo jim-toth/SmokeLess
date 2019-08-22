@@ -13,7 +13,7 @@ SmokeLess is a mobile application to aid users in their journey to smoke less to
 - `npm i`
 
 ## Run
-1. `npm start` will attempt to start the app on a configured emulator device or a physical device connected via USB with "USB Debugging" enabled on the phone.
+1. `npm run android` will attempt to start the app on a configured emulator device or a physical device connected via USB with "USB Debugging" enabled on the phone.
 2. Code!  Shake your phone for a debug menu that offers a few options such as hot reloading and opening up a debugger window in your browser (access to console.log, etc.)
 
 ## Build
