@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, ScrollView, Text, FlatList, View, Dimensions, Animated } from 'react-native';
+import { ScrollView, Text, FlatList, View, Dimensions, Animated } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import Icon from 'react-native-ionicons';
@@ -20,6 +20,14 @@ import Config from '../../util/config';
 import { styles } from './Styles';
 
 const { height } = Dimensions.get('window');
+
+const velocity = 1000;
+const animationConfig = {
+  hidePanelSleep: 2000,
+  showAdSleep: 1000,
+  show: { toValue: 150, velocity },
+  hide: { toValue: 0, velocity }
+};
 
 interface IHomeScreenState {
   lastSmokeDateTime: Date | null;
@@ -101,13 +109,27 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     await updateSettings({ durationBetweenSmokes: newDurationBetweenSmokes });
     const smokeLogEntries = await fetchSmokeLogEntries();
 
-    await this._showAfterSmokeAd();
-
     this.setState({
       lastSmokeDateTime: smokeTimestamp,
       durationBetweenSmokes: newDurationBetweenSmokes,
       smokeLogEntries
-    });
+    }, this._animateLoggingOfSmoke);
+  }
+
+  _animateLoggingOfSmoke = async () => {
+    // show panel
+    this._panel.show(animationConfig.show);
+
+    // wait and hide panel
+    setTimeout(() => {
+      this._panel.show(animationConfig.hide)
+
+      // wait and show ad
+      setTimeout(async () => {
+        await this._showAfterSmokeAd();
+      }, animationConfig.showAdSleep);
+
+    }, animationConfig.hidePanelSleep);
   }
 
   _setUpAdMob = () => {
@@ -123,6 +145,8 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
     if (Config.ENABLE_ADS) {
       await AdMobInterstitial.requestAd();
       await AdMobInterstitial.showAd();
+    } else {
+      console.log('Skipping after smoke ad because ads are disabled. ');
     }
   }
 
