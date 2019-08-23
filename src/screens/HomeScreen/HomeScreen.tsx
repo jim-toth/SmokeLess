@@ -112,7 +112,6 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
 
   _setUpAdMob = () => {
     if (Config.ENABLE_ADS) {
-      // TODO -> Sentry error logging for Ads
       if (Config.USE_TEST_ADS) {
         AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
       }
@@ -122,7 +121,6 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
 
   _showAfterSmokeAd = async () => {
     if (Config.ENABLE_ADS) {
-      // TODO -> Sentry error logging for Ads
       await AdMobInterstitial.requestAd();
       await AdMobInterstitial.showAd();
     }
