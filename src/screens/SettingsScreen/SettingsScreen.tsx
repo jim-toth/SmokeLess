@@ -83,9 +83,9 @@ class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsS
           text={'Duration Between Smokes (minutes):'}
           containerStyle={styles.durationSliderContainer}
           textStyle={styles.durationSliderText}
-          minimumTrackTintColor={Colors.minimumSliderTintColor}
-          maximumTrackTintColor={Colors.maximumSliderTintColor}
-          buttonColor={Colors.fontColor}
+          minimumTrackTintColor={Colors.minimumSliderTint}
+          maximumTrackTintColor={Colors.maximumSliderTint}
+          buttonColor={Colors.font}
         />
 
         <ButtonSlider
@@ -97,9 +97,9 @@ class SettingsScreen extends React.Component<NavigationInjectedProps, ISettingsS
           text={'Increase Between Smokes (minutes):'}
           containerStyle={styles.increaseSliderContainer}
           textStyle={styles.increaseSliderText}
-          minimumTrackTintColor={Colors.minimumSliderTintColor}
-          maximumTrackTintColor={Colors.maximumSliderTintColor}
-          buttonColor={Colors.fontColor}
+          minimumTrackTintColor={Colors.minimumSliderTint}
+          maximumTrackTintColor={Colors.maximumSliderTint}
+          buttonColor={Colors.font}
         />
 
         <CustomButton

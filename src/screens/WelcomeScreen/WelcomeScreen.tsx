@@ -68,9 +68,9 @@ class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScre
           text={'Duration Between Smokes (minutes):'}
           containerStyle={styles.durationSliderContainer}
           textStyle={styles.durationSliderText}
-          minimumTrackTintColor={Colors.minimumSliderTintColor}
-          maximumTrackTintColor={Colors.maximumSliderTintColor}
-          buttonColor={Colors.fontColor}
+          minimumTrackTintColor={Colors.minimumSliderTint}
+          maximumTrackTintColor={Colors.maximumSliderTint}
+          buttonColor={Colors.font}
         />
 
         <ButtonSlider
@@ -82,9 +82,9 @@ class WelcomeScreen extends React.Component<NavigationInjectedProps,IWelcomeScre
           text={'Increase Between Smokes (minutes):'}
           containerStyle={styles.increaseSliderContainer}
           textStyle={styles.increaseSliderText}
-          minimumTrackTintColor={Colors.minimumSliderTintColor}
-          maximumTrackTintColor={Colors.maximumSliderTintColor}
-          buttonColor={Colors.fontColor}
+          minimumTrackTintColor={Colors.minimumSliderTint}
+          maximumTrackTintColor={Colors.maximumSliderTint}
+          buttonColor={Colors.font}
         />
 
         <CustomButton

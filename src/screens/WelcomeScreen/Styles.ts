@@ -7,18 +7,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     height: '100%',
-    padding: 25,
-    backgroundColor: Colors.backgroundColor
+    padding: 20,
+    backgroundColor: Colors.elevation0
   },
   bodyTitleText: {
     marginTop: 50,
     fontSize: 24,
-    color: Colors.fontColor,
-    fontFamily: Fonts.appFont
+    color: Colors.font,
+    fontFamily: Fonts.primary
   },
   bodyText: {
-    color: Colors.fontColor,
-    fontFamily: Fonts.appFont
+    color: Colors.font,
+    fontFamily: Fonts.primary
   },
 });
 
