@@ -17,7 +17,7 @@ const navigationOptions = (props:NavigationInjectedProps) => { return {
       iconStyle={NavStyle.settingsIcon}
       boundingStyle={NavStyle.settingsIconBounding}
       iconSize={26}
-      iconColor={Colors.fontColor}
+      iconColor={Colors.font}
       toggled={false}
       onPress={() => {
         props.navigation.navigate('Settings');
@@ -35,7 +35,7 @@ export default createStackNavigator({
     screen: SettingsScreen,
     navigationOptions: {
       title: 'Settings',
-      headerTintColor: Colors.fontColor,
+      headerTintColor: Colors.font,
       headerStyle: NavStyle.header,
       headerTitleStyle: NavStyle.headerTitle,
     }
