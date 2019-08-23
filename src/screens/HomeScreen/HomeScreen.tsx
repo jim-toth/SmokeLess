@@ -5,7 +5,6 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 import Icon from 'react-native-ionicons';
 import SplashScreen from 'react-native-splash-screen';
 import { AdMobInterstitial } from 'react-native-admob';
-import Config from 'react-native-config';
 
 import { SmokeLogEntry } from '../../common/SmokeLogEntry';
 import CountdownTimerButton from '../../components/atoms/CountdownTimerButton';
@@ -16,6 +15,7 @@ import {
 } from '../../db/SmokeLogRepository';
 import { fetchSettings, updateSettings } from '../../db/SettingsRepository';
 import { formatPrettyDate } from '../../util/helpers';
+import Config from '../../util/config';
 
 import { styles } from './Styles';
 
@@ -43,7 +43,7 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
   }
 
   _panel:any = null;
-  draggableRange:any = { top: height - 80, bottom: 64 };
+  draggableRange:any = { top: height - 80, bottom: 90 };
   animatedValue = new Animated.Value(this.draggableRange.bottom);
 
   async componentDidMount() {
@@ -165,13 +165,6 @@ class HomeScreen extends React.Component<NavigationInjectedProps, IHomeScreenSta
             <View style={styles.bottomContainer}>
               <View style={styles.bottomContainerTitleHandle} {...dragHandler}>
                 <Text style={styles.bottomContainerTitleText}>{nextSmokeString}</Text>
-                <View style={this.state.drawerOpen ? {display: 'none'} : {display: 'flex'}}>
-                  <Icon
-                    name={'arrow-dropdown'}
-                    size={26}
-                    style={styles.dragIcon}
-                  />
-                </View>
               </View>
               <ScrollView style={styles.logContainer}>
                 <FlatList

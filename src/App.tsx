@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Sentry } from 'react-native-sentry';
 import Config from 'react-native-config';
 
@@ -7,7 +7,7 @@ import createAppContainer from './navigation/AppContainer';
 import { fetchWelcomeCompleted } from './db/SettingsRepository';
 import SplashLoader from './components/atoms/SplashLoader';
 
-import { AppStyle } from './Styles';
+import { AppStyle, Colors } from './Styles';
 
 Sentry.config(Config.SENTRY_URL).install();
 
@@ -25,17 +25,20 @@ export default class App extends React.Component<IAppState> {
   render() {
     if (!this.state.isLoadingComplete) {
       return (
-        <SplashLoader
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
+        <View>
+          <StatusBar backgroundColor={Colors.elevation2} barStyle={'light-content'} />
+          <SplashLoader
+            startAsync={this._loadResourcesAsync}
+            onError={this._handleLoadingError}
+            onFinish={this._handleFinishLoading}
+          />
+        </View>
       );
     } else {
       const AppContainer = createAppContainer(this.state.isWelcomeComplete);
       return (
         <View style={AppStyle.container}>
-          {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
+          <StatusBar backgroundColor={Colors.elevation2} barStyle={'light-content'} />
           <AppContainer />
         </View>
       );

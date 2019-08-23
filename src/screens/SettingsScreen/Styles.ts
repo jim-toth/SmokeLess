@@ -3,11 +3,11 @@ import { Colors, Fonts } from '../../Styles';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 20,
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: Colors.backgroundColor
+    backgroundColor: Colors.elevation0
   },
 
   /* Duration Slider */
@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
     width: '85%'
   },
   durationSliderText: {
-    color: Colors.fontColor,
-    fontFamily: Fonts.appFont
+    color: Colors.font,
+    fontFamily: Fonts.primary
   },
 
   /* Increase Slider */
@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
     width: '85%'
   },
   increaseSliderText: {
-    color: Colors.fontColor,
-    fontFamily: Fonts.appFont
+    color: Colors.font,
+    fontFamily: Fonts.primary
   },
 });
 
@@ -33,7 +33,7 @@ const buttons = StyleSheet.create({
   // Save
   saveText: {
     color: 'green',
-    fontFamily: Fonts.boldAppFont
+    fontFamily: Fonts.bold
   },
   saveFlex: {
     padding: 5,
@@ -49,7 +49,7 @@ const buttons = StyleSheet.create({
   // Reset
   resetText: {
     color: 'red',
-    fontFamily: Fonts.boldAppFont
+    fontFamily: Fonts.bold
   },
   resetFlex: {
     padding: 5,

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   // BODY
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: Colors.elevation0,
   },
 
   // TOP VIEW
@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   },
   topContainerText: {
     padding: 5,
-    color: Colors.fontColor,
-    fontFamily: Fonts.appFont
+    color: Colors.font,
+    fontFamily: Fonts.primary
   },
 
   // BOTTOM VIEW
@@ -27,8 +27,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     width: '100%',
-    backgroundColor: Colors.backgroundColor2,
-    shadowOffset: { width: 5, height: 5 }
+    backgroundColor: Colors.elevation1,
+    shadowOffset: { width: 5, height: 5 },
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   bottomContainerTitleHandle: {
     width: '100%',
@@ -43,15 +45,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   bottomContainerTitleText: {
-    color: Colors.fontColor,
-    fontFamily: Fonts.appFont
+    color: Colors.accent,
+    fontFamily: Fonts.primary,
+    fontSize: 12,
+    backgroundColor: Colors.accentBackground,
+    borderColor: Colors.accent,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 20
   },
   dragIcon: {
     margin: 5,
-    color: Colors.fontColor
+    color: Colors.font
   },
   logContainer: {
-    width: '100%'
+    width: '100%',
   },
   logEntryWrapper: {
     flex: 1,
@@ -64,8 +72,8 @@ const styles = StyleSheet.create({
   logText: {
     fontSize: 16,
     textAlignVertical: 'center',
-    color: Colors.fontColor,
-    fontFamily: Fonts.appFont
+    color: Colors.font,
+    fontFamily: Fonts.primary
   }
 });
 
