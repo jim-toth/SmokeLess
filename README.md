@@ -22,7 +22,9 @@ Probably won't need to do this but just in case there are a couple npm scripts t
 - `npm run build:android:production`
 
 ## Contributing
-- Create a merge request on gitlab pointing to the current prerelease branch (Currently: `MVP`)
+- Find an open issue
+- Create a merge request from the issue on gitlab pointing to the current prerelease branch (Currently: `MVP`)
+- Submit merge request and resolve WIP status when finished
 
 ## Resources
 - [React Native 60 Documentation](https://facebook.github.io/react-native/docs/0.60)
