@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Sentry } from 'react-native-sentry';
+import Config from 'react-native-config';
 
 import createAppContainer from './navigation/AppContainer';
 import { fetchWelcomeCompleted } from './db/SettingsRepository';
 import SplashLoader from './components/atoms/SplashLoader';
 
 import { AppStyle } from './Styles';
+
+Sentry.config(Config.SENTRY_URL).install();
 
 interface IAppState {
   isLoadingComplete: boolean;
@@ -49,10 +53,7 @@ export default class App extends React.Component<IAppState> {
   };
 
   _handleLoadingError = (error:any) => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
-
-    // TODO -> report to sentry
+    // Reports to Sentry
     console.warn(error);
   };
 
