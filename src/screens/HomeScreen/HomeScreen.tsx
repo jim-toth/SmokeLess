@@ -21,7 +21,7 @@ import { styles } from './Styles';
 
 const { height } = Dimensions.get('window');
 
-const velocity = 1000;
+const velocity = 500;
 const animationConfig = {
   hidePanelSleep: 2000,
   showAdSleep: 1000,
