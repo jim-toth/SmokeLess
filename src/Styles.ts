@@ -1,14 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 export const Colors = {
+  accent:            '#FF0366', // neon magenta
+  accentBackground:  '#3A2233', // neon magenta on black
+  danger:            '#FF4F03',
   elevation0:        '#121212',
   elevation1:        '#24252D',
   elevation2:        '#373A44',
-  accent:            '#FF0366', // neon magenta
-  accentBackground:  '#3A2233', // neon magenta on black
   font:              '#FFFFFF', // white
   minimumSliderTint: '#FF0000', // red
   maximumSliderTint: '#00FFFF', // blue
+  primary:           '#03C8FF',
+  success:           '#68FF03',
+  warning:           '#FFD800'
 }
 
 export const Fonts = {
